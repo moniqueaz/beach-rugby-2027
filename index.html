@@ -292,7 +292,7 @@
               class="absolute inset-0 bg-orange rounded-3xl transform translate-x-4 translate-y-4 md:translate-x-6 md:translate-y-6"
             ></div>
             <img
-              src="Images 580x326.avif"
+              src="imagem-04.avif"
               alt="Jogadoras sorrindo"
               class="relative z-10 w-full h-auto object-cover rounded-3xl shadow-xl border-4 border-white"
               onerror="
@@ -726,27 +726,37 @@
           </div>
         </div>
 
-        <!-- Arcade Promo (Text only / mini banner) -->
-        <div
-          class="bg-white/10 backdrop-blur border border-white/20 rounded-3xl p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6 mb-16 reveal"
-        >
-          <div>
-            <h3
-              class="font-display font-black text-3xl uppercase text-sun mb-2"
-              data-i18n="arc_t1"
-            >
+        <!-- Arcade Promo Banner -->
+        <div class="relative overflow-hidden bg-navy border border-white/20 rounded-3xl p-6 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 mb-16 reveal shadow-2xl">
+          
+          <!-- Imagem de Fundo (Responsiva) -->
+          <div class="absolute inset-0 z-0">
+            <!-- Ajusta a imagem para cobrir todo o espaço, ancorada à direita -->
+            <img 
+              src="sandy-summer.png"
+              alt="Sandy Summer Arcade Background" 
+              class="w-full h-full object-cover opacity-90"
+              onerror="this.style.display='none'"
+            />
+          </div>
+
+          <!-- Overlay / Degradê Responsivo -->
+          <!-- Mobile: Escurece mais de baixo pra cima / Desktop: Escurece da esquerda pra direita -->
+          <div class="absolute inset-0 z-0 bg-gradient-to-t from-navy via-navy/80 to-navy/40 md:bg-gradient-to-r md:from-navy md:via-navy/90 md:to-transparent"></div>
+
+          <!-- Conteúdo: Textos -->
+          <div class="relative z-10 w-full md:w-2/3 text-center md:text-left">
+            <h3 class="font-display font-black text-3xl md:text-5xl uppercase text-sun mb-3 drop-shadow-lg" data-i18n="arc_t1">
               Sandy Summer Arcade
             </h3>
-            <p class="font-medium text-lg text-gray-300" data-i18n="arc_t2">
+            <p class="font-medium text-lg md:text-xl text-gray-200 drop-shadow-md" data-i18n="arc_t2">
               Jogue o arcade do RBR27 e desafie seus amigos.
             </p>
           </div>
-          <a
-            href="sandy-summer.html"
-            class="shrink-0 bg-white text-navy font-display font-black uppercase px-8 py-4 rounded-full hover:bg-sun transition-colors shadow-lg flex items-center gap-2"
-            data-i18n="arc_btn"
-          >
-            Jogar <i class="fas fa-gamepad"></i>
+
+          <!-- Conteúdo: Botão -->
+          <a href="sandy-summer.html" class="relative z-10 w-full md:w-auto shrink-0 bg-orange text-white hover:bg-sun hover:text-navy font-display font-black uppercase px-8 py-4 md:px-10 md:py-5 rounded-full transition-all shadow-[0_10px_20px_rgba(0,0,0,0.3)] flex items-center justify-center gap-3 transform hover:-translate-y-1" data-i18n="arc_btn">
+            <span>Jogar</span> <i class="fas fa-gamepad text-xl"></i>
           </a>
         </div>
 
