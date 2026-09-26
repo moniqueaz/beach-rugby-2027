@@ -107,6 +107,12 @@
       .overlap-section {
         overflow: hidden;
       }
+      /* clip não cria contêiner de rolagem, então position: sticky continua funcionando */
+      @supports (overflow: clip) {
+        .overlap-section {
+          overflow: clip;
+        }
+      }
 
       /* Mobile menu: 90% da tela, desliza de cima para baixo */
       #mobile-menu {
@@ -154,6 +160,33 @@
       .arcade-glow {
         animation: arcade-pulse 3s ease-in-out infinite;
       }
+
+      /* Abas de "Por que trazer seu time?" */
+      .rsn-tab[aria-selected="true"] {
+        background: #0b1354;
+        border-color: #0b1354;
+        color: #fff;
+        box-shadow: 0 10px 25px rgba(11, 19, 84, 0.25);
+      }
+      .rsn-tab[aria-selected="true"] .rsn-tab-label {
+        color: #ffb800;
+      }
+      .rsn-tab[aria-selected="true"] .rsn-tab-icon {
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.35);
+      }
+      @keyframes rsn-fade {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .rsn-panel:not([hidden]) {
+        animation: rsn-fade 0.4s ease-out;
+      }
     </style>
   </head>
   <body
@@ -163,8 +196,8 @@
       id="navbar"
       class="fixed w-full z-[100] transition-colors duration-300 bg-transparent"
     >
-      <div id="nav-container" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative h-20 md:h-28 flex justify-end items-center gap-3 md:gap-6 transition-all duration-300">
-        
+      <div id="nav-container" class="max-w-7xl 2xl:max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 2xl:pl-40 relative h-20 md:h-28 flex justify-end items-center gap-3 md:gap-6 transition-all duration-300">
+
         <!-- Logo (Absoluta para criar o efeito de caimento) -->
         <a href="#" class="absolute top-0 left-4 sm:left-6 lg:left-8 transition-transform duration-300 hover:scale-105 origin-top z-50">
           <div
@@ -184,25 +217,31 @@
 
         <!-- Desktop section menu -->
         <ul
-          class="hidden lg:flex items-center gap-1 xl:gap-2 font-display font-bold uppercase tracking-wide text-xs xl:text-sm text-white"
+          class="hidden 2xl:flex items-center font-display font-bold uppercase tracking-normal text-xs text-white whitespace-nowrap"
         >
           <li>
-            <a href="#weekend" class="px-3 py-2 rounded-full hover:bg-white/10 hover:text-sun transition-colors" data-i18n="nav_weekend">Torneio</a>
+            <a href="#weekend" class="px-1.5 py-2 rounded-full hover:bg-white/10 hover:text-sun transition-colors" data-i18n="nav_weekend"></a>
           </li>
           <li>
-            <a href="#tournament" class="px-3 py-2 rounded-full hover:bg-white/10 hover:text-sun transition-colors" data-i18n="nav_tournament">Formato</a>
+            <a href="#tournament" class="px-1.5 py-2 rounded-full hover:bg-white/10 hover:text-sun transition-colors" data-i18n="nav_tournament"></a>
           </li>
           <li>
-            <a href="#history" class="px-3 py-2 rounded-full hover:bg-white/10 hover:text-sun transition-colors" data-i18n="nav_history">História</a>
+            <a href="#history" class="px-1.5 py-2 rounded-full hover:bg-white/10 hover:text-sun transition-colors" data-i18n="nav_history"></a>
           </li>
           <li>
-            <a href="#reasons" class="px-3 py-2 rounded-full hover:bg-white/10 hover:text-sun transition-colors" data-i18n="nav_reasons">Por quê</a>
+            <a href="#reasons" class="px-1.5 py-2 rounded-full hover:bg-white/10 hover:text-sun transition-colors" data-i18n="nav_reasons"></a>
           </li>
           <li>
-            <a href="#arcade" class="px-3 py-2 rounded-full bg-sun/20 text-sun border border-sun/40 hover:bg-sun hover:text-navy transition-colors" data-i18n="nav_arcade">Arcade</a>
+            <a href="#arcade" class="px-1.5 py-2 rounded-full bg-sun/20 text-sun border border-sun/40 hover:bg-sun hover:text-navy transition-colors" data-i18n="nav_arcade"></a>
           </li>
           <li>
-            <a href="#cta" class="px-3 py-2 rounded-full bg-orange text-white hover:bg-sun hover:text-navy transition-colors" data-i18n="nav_cta">Inscreva-se</a>
+            <a href="#gallery" class="px-1.5 py-2 rounded-full hover:bg-white/10 hover:text-sun transition-colors" data-i18n="nav_gallery"></a>
+          </li>
+          <li>
+            <a href="#partners" class="px-1.5 py-2 rounded-full hover:bg-white/10 hover:text-sun transition-colors" data-i18n="nav_partners"></a>
+          </li>
+          <li>
+            <a href="#cta" class="px-3 py-2 rounded-full bg-orange text-white hover:bg-sun hover:text-navy transition-colors" data-i18n="nav_cta"></a>
           </li>
         </ul>
 
@@ -227,7 +266,7 @@
         <button
           id="menu-toggle"
           type="button"
-          class="lg:hidden relative z-10 w-11 h-11 flex flex-col items-center justify-center gap-[5px] rounded-full border-2 border-white/20 bg-navy text-white hover:border-orange transition-colors"
+          class="2xl:hidden relative z-10 w-11 h-11 flex flex-col items-center justify-center gap-[5px] rounded-full border-2 border-white/20 bg-navy text-white hover:border-orange transition-colors"
           aria-label="Abrir menu"
           aria-expanded="false"
           aria-controls="mobile-menu"
@@ -242,19 +281,19 @@
     <!-- Mobile menu overlay + drawer (90% width, full height) -->
     <div
       id="mobile-overlay"
-      class="fixed inset-0 z-[110] bg-navy/70 backdrop-blur-sm lg:hidden"
+      class="fixed inset-0 z-[110] bg-navy/70 backdrop-blur-sm 2xl:hidden"
       aria-hidden="true"
     ></div>
     <aside
       id="mobile-menu"
-      class="fixed top-0 left-0 right-0 z-[120] h-[90vh] w-full bg-navy border-b-4 border-orange shadow-2xl lg:hidden flex flex-col rounded-b-[2rem]"
+      class="fixed top-0 left-0 right-0 z-[120] h-[90vh] w-full bg-navy border-b-4 border-orange shadow-2xl 2xl:hidden flex flex-col rounded-b-[2rem]"
       aria-hidden="true"
       role="dialog"
       aria-modal="true"
       aria-label="Menu de navegação"
     >
       <div class="flex items-center justify-between px-6 pt-6 pb-4 border-b border-white/10">
-        <span class="font-display font-black uppercase tracking-widest text-sun text-sm" data-i18n="nav_menu">Menu</span>
+        <span class="font-display font-black uppercase tracking-widest text-sun text-sm" data-i18n="nav_menu"></span>
         <button
           id="menu-close"
           type="button"
@@ -265,38 +304,42 @@
         </button>
       </div>
       <nav class="flex-1 overflow-y-auto px-6 py-8">
-        <ul class="flex flex-col gap-2 font-display font-black uppercase tracking-wide text-2xl text-white">
+        <ul class="flex flex-col gap-2 font-display font-black uppercase tracking-wide text-xl sm:text-2xl text-white">
           <li>
-            <a href="#weekend" class="mobile-nav-link block py-4 border-b border-white/10 hover:text-sun transition-colors" data-i18n="nav_weekend">Torneio</a>
+            <a href="#weekend" class="mobile-nav-link block py-4 border-b border-white/10 hover:text-sun transition-colors" data-i18n="nav_weekend"></a>
           </li>
           <li>
-            <a href="#tournament" class="mobile-nav-link block py-4 border-b border-white/10 hover:text-sun transition-colors" data-i18n="nav_tournament">Formato</a>
+            <a href="#tournament" class="mobile-nav-link block py-4 border-b border-white/10 hover:text-sun transition-colors" data-i18n="nav_tournament"></a>
           </li>
           <li>
-            <a href="#history" class="mobile-nav-link block py-4 border-b border-white/10 hover:text-sun transition-colors" data-i18n="nav_history">História</a>
+            <a href="#history" class="mobile-nav-link block py-4 border-b border-white/10 hover:text-sun transition-colors" data-i18n="nav_history"></a>
           </li>
           <li>
-            <a href="#reasons" class="mobile-nav-link block py-4 border-b border-white/10 hover:text-sun transition-colors" data-i18n="nav_reasons">Por quê</a>
+            <a href="#reasons" class="mobile-nav-link block py-4 border-b border-white/10 hover:text-sun transition-colors" data-i18n="nav_reasons"></a>
           </li>
           <li>
-            <a href="#arcade" class="mobile-nav-link block py-4 border-b border-white/10 text-sun hover:text-orange transition-colors" data-i18n="nav_arcade">Arcade</a>
+            <a href="#arcade" class="mobile-nav-link block py-4 border-b border-white/10 text-sun hover:text-orange transition-colors" data-i18n="nav_arcade"></a>
           </li>
           <li>
-            <a href="#cta" class="mobile-nav-link mt-6 inline-flex items-center justify-center gap-2 w-full bg-orange text-white py-4 rounded-full hover:bg-sun hover:text-navy transition-colors text-lg" data-i18n="nav_cta">Inscreva-se</a>
+            <a href="#gallery" class="mobile-nav-link block py-4 border-b border-white/10 hover:text-sun transition-colors" data-i18n="nav_gallery"></a>
+          </li>
+          <li>
+            <a href="#partners" class="mobile-nav-link block py-4 border-b border-white/10 hover:text-sun transition-colors" data-i18n="nav_partners"></a>
+          </li>
+          <li>
+            <a href="#cta" class="mobile-nav-link mt-6 inline-flex items-center justify-center gap-2 w-full bg-orange text-white py-4 rounded-full hover:bg-sun hover:text-navy transition-colors text-lg" data-i18n="nav_cta"></a>
           </li>
         </ul>
       </nav>
       <div class="px-6 pb-8 pt-4 border-t border-white/10">
-        <p class="font-display font-bold uppercase tracking-widest text-orange text-sm" data-i18n="ftr_motto">
-          Sol, Mar, Areia e Ginga.
-        </p>
+        <p class="font-display font-bold uppercase tracking-widest text-orange text-sm" data-i18n="ftr_motto"></p>
       </div>
     </aside>
 
+    <!-- 01 — HERO -->
     <header
       class="relative min-h-screen flex items-center justify-center overflow-hidden bg-navy pb-32"
     >
-      <!-- Background Image with High Contrast Overlay -->
       <div class="absolute inset-0 z-0">
         <div
           class="absolute inset-0 bg-hero-img bg-cover bg-center bg-no-repeat transform scale-105"
@@ -312,31 +355,41 @@
         <div
           class="inline-block bg-orange text-white font-display font-bold uppercase tracking-[0.2em] px-4 py-1 rounded-full mb-6 text-xs md:text-sm shadow-lg reveal"
           data-i18n="hero_sup"
-        >
-          Sol, mar, areia e ginga.
-        </div>
+        ></div>
 
         <h1
-          class="font-display font-black text-5xl md:text-7xl lg:text-9xl text-white leading-[1] uppercase drop-shadow-2xl mb-8 reveal reveal-delay-1"
+          class="font-display font-black text-5xl md:text-7xl lg:text-8xl text-white leading-[1] uppercase drop-shadow-2xl mb-8 reveal reveal-delay-1"
         >
-          <span data-i18n="hero_t1">Comece a</span><br />
-          <span class="text-sun" data-i18n="hero_t2">Temporada</span><br />
-          <span data-i18n="hero_t3">No Rio.</span>
+          <span data-i18n="hero_t1"></span><br />
+          <span class="text-sun" data-i18n="hero_t2"></span><br />
+          <span data-i18n="hero_t3"></span>
         </h1>
 
         <div
-          class="flex flex-wrap items-center justify-center gap-4 text-white font-display font-bold tracking-wider text-base md:text-xl mb-12 reveal reveal-delay-2"
+          class="flex flex-wrap items-center justify-center gap-4 text-white font-display font-bold tracking-wider uppercase text-base md:text-xl mb-10 reveal reveal-delay-2"
         >
+          <span
+            class="bg-orange px-6 py-3 rounded-full border border-orange text-white shadow-lg"
+          >Rio Beach Rugby 2027</span>
           <span
             class="bg-white/10 backdrop-blur-md px-6 py-3 rounded-full border border-white/20"
             data-i18n="hero_date"
-            >23 E 24 DE JAN 2027</span
-          >
+          ></span>
           <span
             class="bg-navy px-6 py-3 rounded-full border border-orange text-orange shadow-lg"
             data-i18n="hero_loc"
-            >RIO DE JANEIRO</span
-          >
+          ></span>
+        </div>
+
+        <div
+          class="max-w-3xl mx-auto space-y-4 text-lg md:text-xl text-white/85 font-medium mb-10 reveal reveal-delay-2"
+        >
+          <p data-i18n="hero_p1"></p>
+          <p data-i18n="hero_p2"></p>
+          <p
+            class="font-display font-black uppercase text-sun text-xl md:text-2xl"
+            data-i18n="hero_p3"
+          ></p>
         </div>
 
         <div
@@ -344,56 +397,45 @@
         >
           <a
             href="https://wa.me/5521964576591"
+            data-wa="wa_m1"
             target="_blank"
             class="w-full sm:w-auto bg-orange text-white font-display font-black text-lg md:text-xl uppercase px-10 py-5 rounded-full shadow-[0_0_30px_rgba(242,116,5,0.4)] hover:bg-sun hover:text-navy hover:shadow-[0_0_30px_rgba(255,184,0,0.6)] transition-all flex items-center justify-center gap-3"
           >
-            <span data-i18n="hero_cta1">Traga seu time</span>
+            <span data-i18n="cta_team"></span>
             <i class="fas fa-arrow-right"></i>
           </a>
           <a
             href="#weekend"
             class="w-full sm:w-auto bg-transparent text-white font-display font-bold text-lg md:text-xl uppercase px-10 py-5 rounded-full border-2 border-white/50 hover:bg-white hover:text-navy transition-all flex items-center justify-center gap-2"
           >
-            <span data-i18n="hero_cta2">Descubra</span>
+            <span data-i18n="hero_cta2"></span>
             <i class="fas fa-chevron-down"></i>
           </a>
         </div>
       </div>
     </header>
 
-    <!-- OVERLAP EFFECT 1: White curving up over Navy Hero -->
+    <!-- 02 — O FIM DE SEMANA -->
     <section
       id="weekend"
       class="bg-white rounded-t-[3rem] md:rounded-t-[6rem] -mt-20 md:-mt-32 relative z-10 pt-20 md:pt-28 pb-24 overlap-section shadow-[0_-10px_40px_rgba(0,0,0,0.2)] pb-[10rem] scroll-mt-20"
     >
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <!-- Text Content -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div class="reveal">
             <h2
               class="font-display font-black text-4xl md:text-5xl text-navy uppercase leading-tight mb-4"
-            >
-              <span data-i18n="wknd_h1">O torneio que você precisa jogar</span>
-              <span class="text-orange" data-i18n="wknd_h2"
-                >uma vez na vida.</span
-              >
-            </h2>
+              data-i18n="wknd_h"
+            ></h2>
 
             <p
               class="font-display font-bold text-2xl text-sun mb-8"
               data-i18n="wknd_sub"
-            >
-              E vai querer repetir todo ano.
-            </p>
+            ></p>
 
             <div class="space-y-6 text-lg text-gray-700 font-medium">
-              <p data-i18n="wknd_p1">
-                Um fim de semana recheado de rugby de alto nível e dias nas
-                praias do Rio com alguns dos seus melhores amigos —
-                <strong class="text-navy font-bold"
-                  >e centenas de novos amigos pelo caminho.</strong
-                >
-              </p>
+              <p data-i18n="wknd_p1"></p>
+              <p data-i18n="wknd_p2"></p>
 
               <div
                 class="bg-offwhite p-6 rounded-2xl border-l-8 border-orange shadow-sm"
@@ -401,30 +443,11 @@
                 <p
                   class="font-display uppercase text-xl text-navy font-black"
                   data-i18n="wknd_highlight"
-                >
-                  Jogue rugby. Viva o Rio. Faça desse um fim de semana
-                  inesquecível.
-                </p>
-              </div>
-
-              <p data-i18n="wknd_p2">
-                Chegue alguns dias antes. Fique um pouco mais. Curta a praia,
-                conheça novos lugares, coma bem, aproveite a cidade e transforme
-                o torneio em uma verdadeira viagem de rugby com o seu time.
-              </p>
-
-              <div
-                class="inline-flex items-center gap-3 bg-sun text-navy font-black px-5 py-3 rounded-full text-sm font-display uppercase tracking-wide shadow-md"
-              >
-                <i class="fas fa-fire text-orange text-xl"></i>
-                <span data-i18n="wknd_carnival"
-                  >Ocorre poucas semanas antes do Carnaval!</span
-                >
+                ></p>
               </div>
             </div>
           </div>
 
-          <!-- Image -->
           <div class="relative reveal reveal-delay-1">
             <div
               class="absolute inset-0 bg-orange rounded-3xl transform translate-x-4 translate-y-4 md:translate-x-6 md:translate-y-6"
@@ -440,41 +463,131 @@
             />
           </div>
         </div>
+
+        <div class="mt-16 md:mt-24 grid grid-cols-1 lg:grid-cols-5 gap-6 reveal">
+          <div
+            class="lg:col-span-3 bg-offwhite rounded-3xl p-8 md:p-10 border border-gray-100 shadow-sm flex gap-5"
+          >
+            <div
+              class="shrink-0 bg-navy text-white w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-md"
+            >
+              <i class="fas fa-suitcase-rolling"></i>
+            </div>
+            <div class="space-y-3 text-lg text-gray-700 font-medium">
+              <p
+                class="font-display font-black text-navy text-xl md:text-2xl leading-snug"
+                data-i18n="wknd_p3"
+              ></p>
+              <p data-i18n="wknd_p4"></p>
+            </div>
+          </div>
+
+          <div
+            class="lg:col-span-2 bg-sun text-navy rounded-3xl p-8 md:p-10 shadow-md flex flex-col justify-center gap-4"
+          >
+            <i class="fas fa-fire text-orange text-3xl"></i>
+            <p class="text-lg font-medium" data-i18n="wknd_carnival"></p>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- OVERLAP EFFECT 2: Navy curving up over White -->
+    <!-- 03 — O TORNEIO -->
     <section
       id="tournament"
       class="bg-navy text-white rounded-t-[3rem] md:rounded-t-[6rem] -mt-20 md:-mt-32 relative z-20 pt-20 md:pt-28 pb-32 overlap-section shadow-[0_-10px_40px_rgba(0,0,0,0.3)] pb-[10rem] scroll-mt-20"
     >
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16 reveal">
-          <span
-            class="font-display font-bold text-orange tracking-[0.2em] uppercase text-sm md:text-base mb-2 block"
-            data-i18n="rules_subtitle"
-            >Do jeito do Rio</span
-          >
+        <div class="max-w-4xl mx-auto text-center mb-12 reveal">
           <h2
-            class="font-display font-black text-4xl md:text-6xl uppercase mb-6 text-white"
-            data-i18n="rules_title"
-          >
-            Qualquer nível, tem lugar pra você.
-          </h2>
-          <p
-            class="text-xl max-w-3xl mx-auto text-gray-300 font-medium"
-            data-i18n="rules_intro"
-          >
-            Dois dias de Beach Rugby: rápido, divertido e cheio de emoção. Times
-            buscando o pódio e times buscando o sol. Todo mundo aproveita.
-          </p>
+            class="font-display font-black text-4xl md:text-6xl uppercase text-white leading-tight"
+            data-i18n="trn_h"
+          ></h2>
         </div>
+
+        <!-- Perfis de time -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-10">
+          <div
+            class="bg-white/5 border border-white/10 rounded-3xl p-6 md:p-8 reveal"
+          >
+            <i class="fas fa-trophy text-sun text-3xl mb-4"></i>
+            <p class="text-lg text-gray-200 font-medium" data-i18n="trn_p1"></p>
+          </div>
+          <div
+            class="bg-white/5 border border-white/10 rounded-3xl p-6 md:p-8 reveal reveal-delay-1"
+          >
+            <i class="fas fa-umbrella-beach text-sun text-3xl mb-4"></i>
+            <p class="text-lg text-gray-200 font-medium" data-i18n="trn_p2"></p>
+          </div>
+          <div
+            class="bg-white/5 border border-white/10 rounded-3xl p-6 md:p-8 reveal reveal-delay-2"
+          >
+            <i class="fas fa-scale-balanced text-sun text-3xl mb-4"></i>
+            <p class="text-lg text-gray-200 font-medium" data-i18n="trn_p3"></p>
+          </div>
+        </div>
+
+        <p
+          class="text-center font-display font-black uppercase text-sun text-2xl md:text-3xl mb-16 md:mb-20 reveal"
+          data-i18n="trn_highlight"
+        ></p>
+
+        <!-- Quem joga -->
+        <div class="flex flex-col lg:flex-row gap-6 md:gap-8 mb-16 md:mb-20 reveal">
+          <div
+            class="lg:flex-1 bg-orange rounded-3xl p-8 md:p-10 flex items-center shadow-xl"
+          >
+            <p
+              class="text-xl md:text-2xl text-white font-bold leading-relaxed"
+              data-i18n="trn_p4"
+            ></p>
+          </div>
+          <div
+            class="lg:flex-1 flex flex-col gap-4 md:gap-6"
+            data-i18n-block="trn_p5"
+          >
+            <div
+              class="flex-1 bg-white/5 border border-white/10 rounded-3xl p-6 md:p-8 flex items-start gap-5"
+            >
+              <div
+                class="shrink-0 bg-sun text-navy w-14 h-14 rounded-2xl flex items-center justify-center text-2xl"
+              >
+                <i class="fas fa-earth-americas"></i>
+              </div>
+              <p class="text-lg text-gray-300 font-medium" data-i18n="trn_p5"></p>
+            </div>
+            <div
+              class="flex-1 bg-white/5 border border-white/10 rounded-3xl p-6 md:p-8 flex items-start gap-5"
+              data-i18n-block="trn_p6"
+            >
+              <div
+                class="shrink-0 bg-sun text-navy w-14 h-14 rounded-2xl flex items-center justify-center text-2xl"
+              >
+                <i class="fas fa-flag"></i>
+              </div>
+              <p class="text-lg text-gray-300 font-medium" data-i18n="trn_p6"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fechamento -->
+        <div class="max-w-3xl mx-auto text-center mb-16 md:mb-20 reveal">
+          <p
+            class="font-display font-black uppercase text-white text-2xl md:text-3xl mb-3"
+            data-i18n="trn_p7"
+          ></p>
+          <p class="text-lg md:text-xl text-gray-300 font-medium" data-i18n="trn_p8"></p>
+        </div>
+
+        <h3
+          class="text-center font-display font-black text-orange tracking-[0.15em] uppercase text-2xl md:text-3xl mb-10 reveal"
+          data-i18n="rules_title"
+        ></h3>
 
         <!-- Rules Grid -->
         <div
           class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
         >
-          <!-- Rule Card -->
           <div
             class="bg-white rounded-3xl p-8 shadow-xl hover:-translate-y-2 transition-transform duration-300 reveal border-b-8 border-orange group"
           >
@@ -483,20 +596,9 @@
             >
               <i class="fas fa-hand-paper"></i>
             </div>
-            <h4
-              class="font-display font-black text-2xl uppercase mb-3 text-navy"
-              data-i18n="r1_t"
-            >
-              5 de cada lado
-            </h4>
-            <p
-              class="font-sans font-medium text-gray-600 text-lg"
-              data-i18n="r1_d"
-            >
-              Mais espaço para correr.
-            </p>
+            <h4 class="font-display font-black text-2xl uppercase mb-3 text-navy" data-i18n="r1_t"></h4>
+            <p class="font-sans font-medium text-gray-600 text-lg" data-i18n="r1_d"></p>
           </div>
-          <!-- Rule Card -->
           <div
             class="bg-white rounded-3xl p-8 shadow-xl hover:-translate-y-2 transition-transform duration-300 reveal reveal-delay-1 border-b-8 border-sun group"
           >
@@ -505,20 +607,9 @@
             >
               <i class="fas fa-bolt"></i>
             </div>
-            <h4
-              class="font-display font-black text-2xl uppercase mb-3 text-navy"
-              data-i18n="r2_t"
-            >
-              Sem Ruck/Maul
-            </h4>
-            <p
-              class="font-sans font-medium text-gray-600 text-lg"
-              data-i18n="r2_d"
-            >
-              Bola viva e jogo fluido o tempo todo.
-            </p>
+            <h4 class="font-display font-black text-2xl uppercase mb-3 text-navy" data-i18n="r2_t"></h4>
+            <p class="font-sans font-medium text-gray-600 text-lg" data-i18n="r2_d"></p>
           </div>
-          <!-- Rule Card -->
           <div
             class="bg-white rounded-3xl p-8 shadow-xl hover:-translate-y-2 transition-transform duration-300 reveal reveal-delay-2 border-b-8 border-orange group"
           >
@@ -527,20 +618,9 @@
             >
               <i class="fas fa-ban"></i>
             </div>
-            <h4
-              class="font-display font-black text-2xl uppercase mb-3 text-navy"
-              data-i18n="r3_t"
-            >
-              Sem Chute
-            </h4>
-            <p
-              class="font-sans font-medium text-gray-600 text-lg"
-              data-i18n="r3_d"
-            >
-              Bola na mão. Rugby em sua essência.
-            </p>
+            <h4 class="font-display font-black text-2xl uppercase mb-3 text-navy" data-i18n="r3_t"></h4>
+            <p class="font-sans font-medium text-gray-600 text-lg" data-i18n="r3_d"></p>
           </div>
-          <!-- Rule Card -->
           <div
             class="bg-white rounded-3xl p-8 shadow-xl hover:-translate-y-2 transition-transform duration-300 reveal border-b-8 border-sun group"
           >
@@ -549,20 +629,9 @@
             >
               <i class="fas fa-users-slash"></i>
             </div>
-            <h4
-              class="font-display font-black text-2xl uppercase mb-3 text-navy"
-              data-i18n="r4_t"
-            >
-              Sem Scrum
-            </h4>
-            <p
-              class="font-sans font-medium text-gray-600 text-lg"
-              data-i18n="r4_d"
-            >
-              Sem scrum, sem lineout. Mais simples.
-            </p>
+            <h4 class="font-display font-black text-2xl uppercase mb-3 text-navy" data-i18n="r4_t"></h4>
+            <p class="font-sans font-medium text-gray-600 text-lg" data-i18n="r4_d"></p>
           </div>
-          <!-- Rule Card -->
           <div
             class="bg-white rounded-3xl p-8 shadow-xl hover:-translate-y-2 transition-transform duration-300 reveal reveal-delay-1 border-b-8 border-orange group"
           >
@@ -571,20 +640,9 @@
             >
               <i class="fas fa-sync-alt"></i>
             </div>
-            <h4
-              class="font-display font-black text-2xl uppercase mb-3 text-navy"
-              data-i18n="r5_t"
-            >
-              Subs Livres
-            </h4>
-            <p
-              class="font-sans font-medium text-gray-600 text-lg"
-              data-i18n="r5_d"
-            >
-              Espaço para todo o time participar.
-            </p>
+            <h4 class="font-display font-black text-2xl uppercase mb-3 text-navy" data-i18n="r5_t"></h4>
+            <p class="font-sans font-medium text-gray-600 text-lg" data-i18n="r5_d"></p>
           </div>
-          <!-- Rule Card -->
           <div
             class="bg-white rounded-3xl p-8 shadow-xl hover:-translate-y-2 transition-transform duration-300 reveal reveal-delay-2 border-b-8 border-sun group"
           >
@@ -593,31 +651,19 @@
             >
               <i class="fas fa-venus-mars"></i>
             </div>
-            <h4
-              class="font-display font-black text-2xl uppercase mb-3 text-navy"
-              data-i18n="r6_t"
-            >
-              Masc + Fem
-            </h4>
-            <p
-              class="font-sans font-medium text-gray-600 text-lg"
-              data-i18n="r6_d"
-            >
-              A mesma competitividade e diversão.
-            </p>
+            <h4 class="font-display font-black text-2xl uppercase mb-3 text-navy" data-i18n="r6_t"></h4>
+            <p class="font-sans font-medium text-gray-600 text-lg" data-i18n="r6_d"></p>
           </div>
         </div>
 
         <p
           class="text-center text-sm md:text-base text-gray-400 mt-12 font-sans italic reveal"
           data-i18n="rules_note"
-        >
-          *O formato final da competição será confirmado mais próximo ao evento.
-        </p>
+        ></p>
       </div>
     </section>
 
-    <!-- OVERLAP EFFECT 3: Yellow curving up over Navy -->
+    <!-- 04 — DESDE 2006 -->
     <section
       id="history"
       class="bg-sun text-navy rounded-t-[3rem] md:rounded-t-[6rem] -mt-20 md:-mt-32 relative z-30 pt-20 md:pt-28 pb-24 overlap-section shadow-[0_-10px_40px_rgba(0,0,0,0.2)] pb-[10rem] scroll-mt-20"
@@ -629,24 +675,14 @@
           <div class="w-full md:w-1/2 reveal">
             <h2
               class="font-display font-black text-4xl md:text-6xl text-navy uppercase leading-[1.1] mb-6"
-            >
-              <span data-i18n="hist_h1"
-                >Espalhando rugby pelas praias do Rio desde</span
-              >
-              <span class="text-white drop-shadow-md">2006.</span>
-            </h2>
-            <p class="text-xl font-bold mb-6" data-i18n="hist_p1">
-              O que começou como um torneio entre amigos cresceu e se tornou o
-              maior evento de beach rugby das Américas.
-            </p>
+              data-i18n="hist_h"
+            ></h2>
+            <p class="text-xl font-bold mb-6" data-i18n="hist_p1"></p>
+            <p class="text-lg font-medium mb-2 text-navy/80" data-i18n="hist_p2"></p>
             <p
-              class="text-lg font-medium mb-8 text-navy/80"
-              data-i18n="hist_p2"
-            >
-              O Rio Beach Rugby virou um ponto de encontro internacional. E a
-              ideia continua simples: juntar gente boa, curtir o Rio e jogar
-              rugby.
-            </p>
+              class="font-display font-black uppercase text-2xl text-navy mb-8"
+              data-i18n="hist_highlight"
+            ></p>
 
             <div
               class="bg-white p-6 rounded-3xl shadow-lg border-2 border-navy/10"
@@ -654,27 +690,15 @@
               <p
                 class="font-display font-black text-orange uppercase tracking-widest text-sm mb-4"
                 data-i18n="hist_countries_t"
-              >
-                Já recebemos equipes de:
-              </p>
+              ></p>
               <div
                 class="flex flex-wrap gap-2 font-display uppercase font-bold text-sm text-white"
-              >
-                <span class="bg-navy px-4 py-2 rounded-full">Argentina</span>
-                <span class="bg-navy px-4 py-2 rounded-full">Uruguai</span>
-                <span class="bg-navy px-4 py-2 rounded-full">Chile</span>
-                <span class="bg-navy px-4 py-2 rounded-full">Alemanha</span>
-                <span class="bg-navy px-4 py-2 rounded-full">Itália</span>
-                <span class="bg-navy px-4 py-2 rounded-full">Japão</span>
-                <span class="bg-navy px-4 py-2 rounded-full"
-                  >Nova Zelândia</span
-                >
-              </div>
+                data-i18n="hist_countries"
+              ></div>
             </div>
           </div>
 
           <div class="w-full md:w-1/2 reveal reveal-delay-1 relative">
-            <!-- Badge -->
             <div
               class="absolute -top-6 -right-6 md:-top-10 md:-right-10 z-20 bg-orange text-white w-32 h-32 md:w-40 md:h-40 rounded-full flex flex-col items-center justify-center shadow-xl border-4 border-sun transform rotate-12"
             >
@@ -685,8 +709,7 @@
               <span
                 class="font-display font-bold uppercase text-xs md:text-sm tracking-widest text-center mt-1"
                 data-i18n="hist_anos"
-                >Anos na<br />Areia</span
-              >
+              ></span>
             </div>
 
             <img
@@ -700,10 +723,24 @@
             />
           </div>
         </div>
+
+        <div
+          class="mt-16 bg-navy text-white rounded-3xl p-8 md:p-12 shadow-xl reveal grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-10 items-center"
+          data-i18n-block="hist_intl_t"
+        >
+          <h3
+            class="md:col-span-2 font-display font-black uppercase text-2xl md:text-3xl text-sun leading-tight"
+            data-i18n="hist_intl_t"
+          ></h3>
+          <div class="md:col-span-3 space-y-4 md:border-l md:border-white/15 md:pl-10">
+            <p class="text-lg font-medium text-white/85" data-i18n="hist_intl_p1"></p>
+            <p class="text-lg font-medium text-white/85" data-i18n="hist_intl_p2"></p>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- OVERLAP EFFECT 4: Offwhite curving up over Yellow -->
+    <!-- 05 — POR QUE TRAZER SEU TIME? -->
     <section
       id="reasons"
       class="bg-offwhite rounded-t-[3rem] md:rounded-t-[6rem] -mt-20 md:-mt-32 relative z-40 pt-20 md:pt-28 pb-24 overlap-section shadow-[0_-10px_40px_rgba(0,0,0,0.1)] pb-[10rem] scroll-mt-20"
@@ -713,134 +750,176 @@
           <h2
             class="font-display font-black text-4xl md:text-5xl text-navy uppercase mb-4"
             data-i18n="reas_h1"
-          >
-            Precisa de um motivo para trazer seu time?
-          </h2>
+          ></h2>
           <p
             class="font-display font-bold text-xl md:text-2xl text-orange uppercase tracking-wide"
             data-i18n="reas_h2"
-          >
-            A gente te ajuda a pensar em alguns.
-          </p>
+          ></p>
         </div>
 
-        <!-- Banner Image -->
-        <div
-          class="mb-16 rounded-[2rem] overflow-hidden shadow-2xl reveal relative h-64 md:h-[400px]"
-        >
-          <img
-            src="imagem-03.avif"
-            alt="Rugby Action"
-            class="w-full h-full object-cover object-top"
-            onerror="
-              this.src =
-                'https://placehold.co/1200x600/F27405/FFFFFF?text=Action+Shot'
-            "
-          />
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           <div
-            class="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent flex items-end p-8 md:p-12"
+            class="lg:col-span-5 lg:sticky lg:top-28 rounded-[2rem] overflow-hidden shadow-2xl reveal relative h-64 md:h-[400px] lg:h-[560px]"
           >
-            <h3
-              class="text-white font-display font-black text-3xl md:text-5xl uppercase drop-shadow-lg"
-              data-i18n="reas_img_text"
+            <img
+              src="imagem-03.avif"
+              alt="Rugby Action"
+              class="w-full h-full object-cover object-top"
+              onerror="
+                this.src =
+                  'https://placehold.co/1200x600/F27405/FFFFFF?text=Action+Shot'
+              "
+            />
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-navy/60 via-transparent to-transparent"
+            ></div>
+          </div>
+
+          <div class="lg:col-span-7 reveal reveal-delay-1">
+            <div
+              role="tablist"
+              aria-label="Motivos"
+              class="grid grid-cols-3 gap-2 md:gap-3 mb-6"
             >
-              Uma Experiência Inesquecível
-            </h3>
+              <button
+                type="button"
+                role="tab"
+                id="rsn-tab-1"
+                aria-controls="rsn-panel-1"
+                aria-selected="true"
+                class="rsn-tab flex flex-col items-center gap-3 text-center bg-white text-navy border-2 border-gray-100 rounded-2xl px-2 py-4 md:px-4 md:py-5 hover:border-orange transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-orange"
+              >
+                <span
+                  class="rsn-tab-icon w-12 h-12 bg-navy text-white rounded-xl flex items-center justify-center text-2xl shadow-md"
+                >
+                  <i class="fas fa-sun"></i>
+                </span>
+                <span
+                  class="rsn-tab-label font-display font-bold text-orange uppercase tracking-wider text-[0.65rem] sm:text-xs md:text-sm leading-tight"
+                >
+                  01 — <span data-i18n="rsn1_t"></span>
+                </span>
+              </button>
+              <button
+                type="button"
+                role="tab"
+                id="rsn-tab-2"
+                aria-controls="rsn-panel-2"
+                aria-selected="false"
+                tabindex="-1"
+                class="rsn-tab flex flex-col items-center gap-3 text-center bg-white text-navy border-2 border-gray-100 rounded-2xl px-2 py-4 md:px-4 md:py-5 hover:border-orange transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-orange"
+              >
+                <span
+                  class="rsn-tab-icon w-12 h-12 bg-orange text-white rounded-xl flex items-center justify-center text-2xl shadow-md"
+                >
+                  <i class="fas fa-mountain"></i>
+                </span>
+                <span
+                  class="rsn-tab-label font-display font-bold text-orange uppercase tracking-wider text-[0.65rem] sm:text-xs md:text-sm leading-tight"
+                >
+                  02 — <span data-i18n="rsn2_t"></span>
+                </span>
+              </button>
+              <button
+                type="button"
+                role="tab"
+                id="rsn-tab-3"
+                aria-controls="rsn-panel-3"
+                aria-selected="false"
+                tabindex="-1"
+                class="rsn-tab flex flex-col items-center gap-3 text-center bg-white text-navy border-2 border-gray-100 rounded-2xl px-2 py-4 md:px-4 md:py-5 hover:border-orange transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-orange"
+              >
+                <span
+                  class="rsn-tab-icon w-12 h-12 bg-sun text-navy rounded-xl flex items-center justify-center shadow-md"
+                >
+                  <img
+                    src="fa-rugby-ball.png"
+                    alt=""
+                    class="w-7 h-7 object-contain"
+                  />
+                </span>
+                <span
+                  class="rsn-tab-label font-display font-bold text-orange uppercase tracking-wider text-[0.65rem] sm:text-xs md:text-sm leading-tight"
+                >
+                  03 — <span data-i18n="rsn3_t"></span>
+                </span>
+              </button>
+            </div>
+
+            <div
+              class="bg-white rounded-[2rem] p-8 md:p-10 shadow-lg border border-gray-100"
+            >
+              <div
+                role="tabpanel"
+                id="rsn-panel-1"
+                aria-labelledby="rsn-tab-1"
+                class="rsn-panel"
+              >
+                <h3
+                  class="font-display font-black text-2xl md:text-3xl uppercase text-navy mb-6 leading-tight"
+                  data-i18n="rsn1_h"
+                ></h3>
+                <div
+                  class="space-y-4 font-sans font-medium text-gray-600 text-lg leading-relaxed"
+                  data-i18n="rsn1_d"
+                ></div>
+              </div>
+              <div
+                role="tabpanel"
+                id="rsn-panel-2"
+                aria-labelledby="rsn-tab-2"
+                class="rsn-panel"
+                hidden
+              >
+                <h3
+                  class="font-display font-black text-2xl md:text-3xl uppercase text-navy mb-6 leading-tight"
+                  data-i18n="rsn2_h"
+                ></h3>
+                <div
+                  class="space-y-4 font-sans font-medium text-gray-600 text-lg leading-relaxed"
+                  data-i18n="rsn2_d"
+                ></div>
+              </div>
+              <div
+                role="tabpanel"
+                id="rsn-panel-3"
+                aria-labelledby="rsn-tab-3"
+                class="rsn-panel"
+                hidden
+              >
+                <h3
+                  class="font-display font-black text-2xl md:text-3xl uppercase text-navy mb-6 leading-tight"
+                  data-i18n="rsn3_h"
+                ></h3>
+                <div
+                  class="space-y-4 font-sans font-medium text-gray-600 text-lg leading-relaxed"
+                  data-i18n="rsn3_d"
+                ></div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- 3 Reasons Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <!-- Reason 1 -->
-          <div
-            class="bg-white rounded-[2rem] p-8 shadow-lg hover:shadow-xl transition-shadow border border-gray-100 reveal"
+        <div class="flex justify-center mt-16 reveal">
+          <a
+            href="https://wa.me/5521964576591"
+            data-wa="wa_m1"
+            target="_blank"
+            class="bg-orange text-white font-display font-black text-lg md:text-xl uppercase px-10 py-5 rounded-full shadow-[0_10px_20px_rgba(242,116,5,0.4)] hover:-translate-y-1 hover:bg-sun hover:text-navy transition-all flex items-center justify-center gap-3"
           >
-            <div
-              class="w-16 h-16 bg-navy text-white rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-md"
-            >
-              <i class="fas fa-sun"></i>
-            </div>
-            <h3
-              class="font-display font-black text-2xl uppercase text-navy mb-4"
-              data-i18n="rsn1_t"
-            >
-              A Experiência
-            </h3>
-            <p
-              class="font-sans font-medium text-gray-600 text-lg leading-relaxed"
-              data-i18n="rsn1_d"
-            >
-              Jogue durante o dia. Entre no mar. Curta a cidade. No dia
-              seguinte, faça tudo de novo cercado pelas pessoas com quem você
-              mais gosta de dividir o campo.
-            </p>
-          </div>
-
-          <!-- Reason 2 -->
-          <div
-            class="bg-white rounded-[2rem] p-8 shadow-lg hover:shadow-xl transition-shadow border border-gray-100 reveal reveal-delay-1"
-          >
-            <div
-              class="w-16 h-16 bg-orange text-white rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-md"
-            >
-              <i class="fas fa-mountain"></i>
-            </div>
-            <h3
-              class="font-display font-black text-2xl uppercase text-navy mb-4"
-              data-i18n="rsn2_t"
-            >
-              A Cidade
-            </h3>
-            <p
-              class="font-sans font-medium text-gray-600 text-lg leading-relaxed"
-              data-i18n="rsn2_d"
-            >
-              É o Rio de Janeiro. Praia, montanha, verão, samba e gastronomia.
-              São poucas as viagens que você vai querer tanto fazer com o seu
-              time.
-            </p>
-          </div>
-
-          <!-- Reason 3 -->
-          <div
-            class="bg-white rounded-[2rem] p-8 shadow-lg hover:shadow-xl transition-shadow border border-gray-100 reveal reveal-delay-2"
-          >
-            <div
-              class="w-16 h-16 bg-sun text-navy rounded-2xl flex items-center justify-center mb-6 shadow-md"
-            >
-              <!-- Nova imagem customizada de Rugby -->
-              <img 
-                src="fa-rugby-ball.png" 
-                alt="Rugby" 
-                class="w-8 h-8 object-contain"
-              />
-            </div>
-            <h3
-              class="font-display font-black text-2xl uppercase text-navy mb-4"
-              data-i18n="rsn3_t"
-            >
-              O Rugby
-            </h3>
-            <p
-              class="font-sans font-medium text-gray-600 text-lg leading-relaxed"
-              data-i18n="rsn3_d"
-            >
-              Rápido, físico e com a bola na mão. Enfrente times de várias
-              partes. Venha para ganhar, venha pela experiência. De preferência,
-              venha pelos dois.
-            </p>
-          </div>
+            <span data-i18n="cta_team"></span>
+            <i class="fas fa-arrow-right"></i>
+          </a>
         </div>
       </div>
     </section>
 
-    <!-- SANDY SUMMER ARCADE — seção em destaque -->
+    <!-- 06 — SANDY SUMMER -->
     <section
       id="arcade"
       class="bg-navy text-white rounded-t-[3rem] md:rounded-t-[6rem] -mt-20 md:-mt-32 relative z-50 pt-20 md:pt-28 pb-24 overlap-section shadow-[0_-10px_40px_rgba(0,0,0,0.4)] pb-[10rem] scroll-mt-20"
     >
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Banner compacto: arte + logo (esq.) + botão (dir.) -->
         <a
           href="sandy-summer.html"
           class="group arcade-glow reveal relative block overflow-hidden rounded-[1.5rem] md:rounded-[2rem] border-2 border-sun/50 h-40 sm:h-48 md:h-56 lg:h-60"
@@ -868,89 +947,137 @@
             <span
               class="shrink-0 inline-flex items-center justify-center gap-2 sm:gap-3 bg-orange text-white group-hover:bg-sun group-hover:text-navy font-display font-black uppercase text-sm sm:text-base md:text-xl px-5 py-3 sm:px-8 sm:py-4 md:px-10 md:py-5 rounded-full transition-all shadow-[0_10px_30px_rgba(242,116,5,0.55)] group-hover:-translate-y-1"
             >
-              <span data-i18n="arc_btn">Jogar</span>
+              <span data-i18n="arc_btn"></span>
               <i class="fas fa-gamepad text-base sm:text-xl md:text-2xl"></i>
             </span>
           </div>
         </a>
 
-        <!-- Textos fora da arte — mais informação, menos poluição -->
         <div class="mt-8 md:mt-10 text-center max-w-3xl mx-auto reveal">
-          <span
-            class="inline-flex items-center gap-2 bg-orange text-white font-display font-bold uppercase tracking-[0.2em] px-4 py-1.5 rounded-full text-xs shadow-lg mb-4"
-            data-i18n="arc_badge"
-          >
-            Jogo oficial
-          </span>
-          <p
-            class="font-display font-bold uppercase tracking-[0.28em] text-orange text-xs md:text-sm mb-3"
-            data-i18n="arc_tag"
-          >
-            Pixel · Praia · Rugby
-          </p>
           <h2
             class="font-display font-black text-3xl md:text-5xl uppercase leading-tight text-sun mb-4"
-            data-i18n="arc_t1"
-          >
-            Sandy Summer Arcade
-          </h2>
+            data-i18n="arc_h"
+          ></h2>
           <p
-            class="text-base md:text-xl text-white/85 font-medium mb-2"
-            data-i18n="arc_t2"
-          >
-            Jogue o arcade do RBR27 e desafie seus amigos.
-          </p>
-          <p
-            class="text-sm md:text-lg text-white/60"
-            data-i18n="arc_lead"
-          >
-            Corra pela areia, faça tries e dispute o ranking com a galera do RBR27.
-          </p>
+            class="font-display font-bold uppercase tracking-[0.2em] text-orange text-base md:text-xl"
+            data-i18n="arc_sub"
+          ></p>
         </div>
       </div>
     </section>
 
-    <!-- OVERLAP EFFECT 5: Navy curving up over Offwhite -->
+    <!-- 07 — ISSO É O RIO BEACH RUGBY -->
+    <section
+      id="gallery"
+      class="bg-white rounded-t-[3rem] md:rounded-t-[6rem] -mt-20 md:-mt-32 relative z-[55] pt-20 md:pt-28 pb-24 overlap-section shadow-[0_-10px_40px_rgba(0,0,0,0.3)] pb-[10rem] scroll-mt-20"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-12 reveal">
+          <h2
+            class="font-display font-black text-4xl md:text-6xl text-navy uppercase mb-6"
+            data-i18n="gal_h"
+          ></h2>
+          <p class="text-xl md:text-2xl font-bold text-gray-700" data-i18n="gal_p1"></p>
+          <p class="text-xl md:text-2xl font-bold text-gray-700" data-i18n="gal_p2"></p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 reveal">
+          <img src="imagem-02.avif" alt="" class="w-full h-48 md:h-72 object-cover rounded-2xl shadow-lg" />
+          <img src="imagem-01.avif" alt="" class="w-full h-48 md:h-72 object-cover rounded-2xl shadow-lg" />
+          <img src="imagem-03.avif" alt="" class="w-full h-48 md:h-72 object-cover rounded-2xl shadow-lg" />
+          <img src="imagem-04.avif" alt="" class="w-full h-48 md:h-72 object-cover rounded-2xl shadow-lg" />
+        </div>
+
+        <div class="text-center reveal">
+          <h3
+            class="font-display font-black text-3xl md:text-4xl text-orange uppercase mb-8"
+            data-i18n="gal_h2"
+          ></h3>
+          <a
+            href="https://www.instagram.com/riobeachrugby"
+            target="_blank"
+            class="inline-flex items-center justify-center gap-3 bg-navy text-white font-display font-black text-lg uppercase px-10 py-5 rounded-full hover:bg-orange transition-colors"
+          >
+            <i class="fab fa-instagram text-2xl"></i>
+            <span data-i18n="gal_cta"></span>
+            <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
     <footer
       class="bg-navy text-white rounded-t-[3rem] md:rounded-t-[6rem] -mt-20 md:-mt-32 relative z-[60] pt-20 md:pt-28 pb-12 overlap-section shadow-[0_-10px_40px_rgba(0,0,0,0.4)]"
     >
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Final CTA Block -->
+        <!-- 08 — PRONTO PARA O RIO? -->
         <div
           id="cta"
-          class="bg-white text-navy rounded-[2.5rem] p-8 md:p-16 text-center shadow-2xl mb-20 reveal border-b-[12px] border-orange scroll-mt-28"
+          class="bg-white text-navy rounded-[2.5rem] p-8 md:p-16 text-center shadow-2xl mb-12 reveal border-b-[12px] border-orange scroll-mt-28"
         >
           <h2
-            class="font-display font-black text-4xl md:text-6xl uppercase mb-4"
+            class="font-display font-black text-4xl md:text-6xl uppercase mb-8"
             data-i18n="cta_h1"
-          >
-            E aí... Pronto para o Rio?
-          </h2>
-          <p
-            class="text-xl md:text-2xl font-bold text-gray-600 mb-10 max-w-3xl mx-auto"
+          ></h2>
+          <div
+            class="space-y-4 text-lg md:text-xl font-bold text-gray-600 mb-10 max-w-3xl mx-auto"
             data-i18n="cta_p"
-          >
-            A essa altura, você já se imaginou aqui com a gente. Mande uma
-            mensagem e comece a organizar a vinda do seu time.
-          </p>
+          ></div>
 
           <div class="flex flex-col sm:flex-row justify-center gap-4">
             <a
               href="https://wa.me/5521964576591"
+              data-wa="wa_m1"
               target="_blank"
               class="bg-orange text-white font-display font-black text-lg md:text-xl uppercase px-10 py-5 rounded-full shadow-[0_10px_20px_rgba(242,116,5,0.4)] hover:-translate-y-1 hover:bg-sun hover:text-navy hover:shadow-[0_10px_20px_rgba(255,184,0,0.5)] transition-all flex items-center justify-center gap-3"
             >
-              <span data-i18n="cta_btn">Traga seu time para o Rio</span>
+              <span data-i18n="cta_team"></span>
               <i class="fab fa-whatsapp text-2xl"></i>
+            </a>
+            <a
+              href="https://www.instagram.com/riobeachrugby"
+              target="_blank"
+              class="border-2 border-navy text-navy font-display font-black text-lg md:text-xl uppercase px-10 py-5 rounded-full hover:bg-navy hover:text-white transition-all flex items-center justify-center gap-3"
+            >
+              <i class="fab fa-instagram text-2xl"></i>
+              <span data-i18n="cta_instagram"></span>
             </a>
           </div>
         </div>
 
-        <!-- Footer Bottom Links -->
+        <!-- 09 — PARCEIROS -->
+        <div
+          id="partners"
+          class="bg-sun text-navy rounded-[2.5rem] p-8 md:p-16 text-center shadow-2xl mb-20 reveal scroll-mt-28"
+        >
+          <h2
+            class="font-display font-black text-4xl md:text-5xl uppercase mb-6"
+            data-i18n="prt_h"
+          ></h2>
+          <p
+            class="text-lg md:text-xl font-bold max-w-3xl mx-auto mb-6"
+            data-i18n="prt_p"
+          ></p>
+          <h3
+            class="font-display font-black text-2xl md:text-3xl uppercase mb-8"
+            data-i18n="prt_h2"
+          ></h3>
+          <a
+            href="https://wa.me/5521964576591"
+            data-wa="wa_m3"
+            target="_blank"
+            class="inline-flex items-center justify-center gap-3 bg-navy text-white font-display font-black text-lg uppercase px-10 py-5 rounded-full hover:bg-orange transition-colors"
+          >
+            <i class="fas fa-handshake text-2xl"></i>
+            <span data-i18n="prt_cta"></span>
+            <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+
+        <!-- 10 — FOOTER -->
         <div
           class="grid grid-cols-1 md:grid-cols-2 gap-10 border-t border-white/20 pt-10"
         >
-          <!-- Branding -->
           <div
             class="flex flex-col items-center md:items-start text-center md:text-left"
           >
@@ -968,38 +1095,45 @@
             <h2
               class="font-display font-black text-2xl uppercase tracking-wider"
               data-i18n="ftr_title"
-            >
-              Rio Beach Rugby 2027
-            </h2>
+            ></h2>
             <p
               class="text-orange font-display font-bold uppercase tracking-widest mt-2"
               data-i18n="ftr_date"
-            >
-              23 e 24 de Jan | Rio de Janeiro
-            </p>
+            ></p>
+            <p
+              class="text-orange font-display font-bold uppercase tracking-widest"
+              data-i18n="ftr_loc"
+            ></p>
           </div>
 
-          <!-- Links & Contact -->
           <div
             class="flex flex-col items-center md:items-end justify-center gap-5 font-display font-bold uppercase text-lg text-gray-300"
           >
             <a
               href="https://www.instagram.com/riobeachrugby"
+              target="_blank"
               class="hover:text-orange transition-colors flex items-center gap-3"
               ><i class="fab fa-instagram text-2xl"></i>
-              <span data-i18n="ftr_l1">Instagram</span></a
+              <span data-i18n="ftr_l1"></span></a
             >
             <a
               href="https://wa.me/5521964576591"
+              target="_blank"
               class="hover:text-green-400 transition-colors flex items-center gap-3"
               ><i class="fab fa-whatsapp text-2xl"></i>
-              <span data-i18n="ftr_l2">WhatsApp</span></a
+              <span data-i18n="ftr_l2"></span></a
             >
             <a
-              href="#"
+              href="sandy-summer.html"
+              class="hover:text-sun transition-colors flex items-center gap-3"
+              ><i class="fas fa-gamepad text-2xl"></i>
+              <span data-i18n="ftr_l3"></span></a
+            >
+            <a
+              href="#partners"
               class="hover:text-sun transition-colors flex items-center gap-3"
               ><i class="fas fa-handshake text-2xl"></i>
-              <span data-i18n="ftr_l3">Seja Parceiro</span></a
+              <span data-i18n="ftr_l4"></span></a
             >
           </div>
         </div>
@@ -1007,16 +1141,11 @@
         <div
           class="mt-12 flex flex-col md:flex-row justify-between items-center text-sm font-sans text-gray-400 text-center md:text-left"
         >
-          <p data-i18n="ftr_org">
-            Realização:
-            <span class="text-white font-bold">Rio Rugby Football Club</span>
-          </p>
+          <p data-i18n="ftr_org"></p>
           <p
             class="mt-4 md:mt-0 font-display uppercase font-bold tracking-widest text-white/50"
             data-i18n="ftr_motto"
-          >
-            Sol, Mar, Areia e Ginga.
-          </p>
+          ></p>
         </div>
       </div>
     </footer>
@@ -1032,7 +1161,7 @@
         >
           <div class="flex items-center gap-2">
             <i class="fab fa-whatsapp text-green-400 text-2xl"></i>
-            <span data-i18n="wa_head">Fale com a gente</span>
+            <span data-i18n="wa_head"></span>
           </div>
           <button id="wa-close" class="text-white/60 hover:text-white">
             <i class="fas fa-times"></i>
@@ -1040,28 +1169,31 @@
         </div>
         <div class="flex flex-col gap-2">
           <a
-            href="https://wa.me/5521964576591?text=Oi!%20Quero%20levar%20meu%20time!"
+            href="https://wa.me/5521964576591"
+            data-wa="wa_m1"
             target="_blank"
             class="p-3 rounded-xl font-sans font-bold text-navy bg-offwhite hover:bg-orange hover:text-white transition-colors flex items-center gap-3 border border-gray-100"
           >
             <i class="fas fa-users text-xl"></i>
-            <span data-i18n="wa_o1">Quero levar meu time</span>
+            <span data-i18n="wa_o1"></span>
           </a>
           <a
-            href="https://wa.me/5521964576591?text=Oi!%20Quero%20saber%20mais!"
+            href="https://wa.me/5521964576591"
+            data-wa="wa_m2"
             target="_blank"
             class="p-3 rounded-xl font-sans font-bold text-navy bg-offwhite hover:bg-orange hover:text-white transition-colors flex items-center gap-3 border border-gray-100"
           >
             <i class="fas fa-info-circle text-xl"></i>
-            <span data-i18n="wa_o2">Quero saber mais</span>
+            <span data-i18n="wa_o2"></span>
           </a>
           <a
-            href="https://wa.me/5521964576591?text=Oi!%20Quero%20ser%20parceiro!"
+            href="https://wa.me/5521964576591"
+            data-wa="wa_m3"
             target="_blank"
             class="p-3 rounded-xl font-sans font-bold text-navy bg-offwhite hover:bg-orange hover:text-white transition-colors flex items-center gap-3 border border-gray-100"
           >
             <i class="fas fa-handshake text-xl"></i>
-            <span data-i18n="wa_o3">Patrocínio e parcerias</span>
+            <span data-i18n="wa_o3"></span>
           </a>
         </div>
       </div>
@@ -1080,280 +1212,456 @@
 
     <script>
       // 1. i18n System (JSON Dictionary)
+      const WA_URL = "https://wa.me/5521964576591";
+      const HTML_LANG = { pt: "pt-BR", en: "en-GB", es: "es" };
+
+      const chips = (items) =>
+        items
+          .map((item) => `<span class='bg-navy px-4 py-2 rounded-full'>${item}</span>`)
+          .join("");
+      const paragraphs = (items) => items.map((item) => `<p>${item}</p>`).join("");
+      const strong = (text, color = "text-navy") =>
+        `<strong class='${color} font-bold'>${text}</strong>`;
+
       const translations = {
         pt: {
           nav_menu: "Menu",
-          nav_weekend: "Torneio",
-          nav_tournament: "Formato",
-          nav_history: "História",
-          nav_reasons: "Por quê",
-          nav_arcade: "Arcade",
-          nav_cta: "Inscreva-se",
+          nav_weekend: "O fim de semana",
+          nav_tournament: "O torneio",
+          nav_history: "Desde 2006",
+          nav_reasons: "Por que trazer seu time?",
+          nav_arcade: "Sandy Summer",
+          nav_gallery: "Isso é o Rio Beach Rugby",
+          nav_partners: "Parceiros",
+          nav_cta: "Pronto para o Rio?",
+
           hero_sup: "Sol, mar, areia e ginga.",
           hero_t1: "Comece a",
-          hero_t2: "Temporada",
-          hero_t3: "No Rio.",
-          hero_date: "23 e 24 de Jan 2027",
+          hero_t2: "temporada",
+          hero_t3: "no Rio.",
+          hero_date: "23 e 24 de janeiro de 2027",
           hero_loc: "Rio de Janeiro",
-          hero_cta1: "Traga seu time",
-          hero_cta2: "Descubra",
-          wknd_h1: "O torneio que você precisa jogar",
-          wknd_h2: "uma vez na vida.",
+          hero_p1: `Traga seu time para um fim de semana de ${strong("beach rugby", "text-white")} e aproveite para esticar a viagem e curtir tudo o que o Rio tem para oferecer.`,
+          hero_p2: "Praia, cultura, gastronomia, noites de verão e alguns dos cartões-postais mais incríveis do mundo.",
+          hero_p3: "Venha pelo rugby.<br />Aproveite o Rio.",
+          hero_cta2: "Descubra o Rio Beach Rugby",
+          cta_team: "Traga seu time para o Rio",
+
+          wknd_h: "O torneio que você precisa jogar <span class='text-orange'>pelo menos uma vez na vida.</span>",
           wknd_sub: "E vai querer repetir todo ano.",
-          wknd_p1:
-            "Um fim de semana recheado de rugby de alto nível e dias nas praias do Rio com alguns dos seus melhores amigos — <strong class='text-navy font-bold'>e centenas de novos amigos pelo caminho.</strong>",
-          wknd_highlight:
-            "Jogue rugby. Viva o Rio. Faça desse um fim de semana inesquecível.",
-          wknd_p2:
-            "Chegue alguns dias antes. Fique um pouco mais. Curta a praia, conheça novos lugares, coma bem, aproveite a cidade e transforme o torneio em uma verdadeira viagem de rugby com o seu time.",
-          wknd_carnival: "Ocorre poucas semanas antes do Carnaval!",
-          rules_subtitle: "Do jeito do Rio",
-          rules_title: "Qualquer nível, tem lugar pra você.",
-          rules_intro:
-            "Dois dias de Beach Rugby: rápido, divertido e cheio de emoção. Times buscando o pódio e times buscando o sol. Todo mundo aproveita.",
+          wknd_p1: `Um fim de semana recheado de rugby de alto nível e dias nas praias do Rio com alguns dos seus melhores amigos — ${strong("e centenas de novos amigos pelo caminho.")}`,
+          wknd_p2: "O Rio Beach Rugby é onde rugby, verão carioca, mar, areia e aquela energia que só o Rio tem se encontram.",
+          wknd_highlight: "Jogue rugby. Viva o Rio. Faça desse um fim de semana inesquecível.",
+          wknd_p3: "E não tem por que vir ao Rio só para os dois dias de torneio.",
+          wknd_p4: "Chegue alguns dias antes. Fique um pouco mais. Curta a praia, conheça novos lugares, coma bem, aproveite a cidade e transforme o torneio em uma verdadeira viagem de rugby com o seu time.",
+          wknd_carnival: "<strong>O Rio Beach Rugby acontece poucas semanas antes do Carnaval</strong>, em pleno verão, quando a cidade já está a mil.",
+
+          trn_h: "Seja qual for o nível do seu time, tem lugar para você na areia.",
+          trn_p1: "Tem time que vem ao Rio para competir pelo pódio.",
+          trn_p2: "Tem time que vem pelo sol, pela praia, pelos amigos e pela desculpa para passar alguns dias no Rio.",
+          trn_p3: "A maioria está em algum lugar entre esses dois.",
+          trn_highlight: "E todo mundo aproveita.",
+          trn_p4: "O Rio Beach Rugby reúne equipes masculinas e femininas de diferentes níveis, vindas de vários estados do Brasil e de outros países, para dois dias de Beach Rugby: rápido, divertido e cheio de emoção.",
+          trn_p5: `Na edição de 2026, tivemos ${strong("times da Alemanha, Chile e Uruguai", "text-white")}, além de equipes de diferentes partes do Brasil.`,
+          trn_p6: `E a areia ficou ainda mais internacional: jogadores de ${strong("mais de 15 nacionalidades", "text-white")} dividiram o campo ao longo do fim de semana.`,
+          trn_p7: "Vai ter muito rugby de alto nível.",
+          trn_p8: "Mas também vai ter muita risada, areia para todos os lados, perna cansada e história para contar na volta para casa.",
+          rules_title: "Beach Rugby. Do jeito do Rio.",
           r1_t: "5 de cada lado",
           r1_d: "Mais espaço para correr.",
-          r2_t: "Sem Ruck/Maul",
-          r2_d: "Bola viva e jogo fluido o tempo todo.",
-          r3_t: "Sem Chute",
-          r3_d: "Bola na mão. Rugby em sua essência.",
-          r4_t: "Sem Scrum",
-          r4_d: "Sem scrum, sem lineout. Mais simples.",
-          r5_t: "Subs Livres",
-          r5_d: "Espaço para todo o time participar.",
-          r6_t: "Masc + Fem",
-          r6_d: "A mesma competitividade e diversão.",
-          rules_note:
-            "*O formato final da competição será confirmado mais próximo ao evento.",
-          hist_h1: "Espalhando rugby pelas praias do Rio desde",
-          hist_p1:
-            "O que começou como um torneio entre amigos cresceu e se tornou o maior evento de beach rugby das Américas.",
-          hist_p2:
-            "O Rio Beach Rugby virou um ponto de encontro internacional. E a ideia continua simples: juntar gente boa, curtir o Rio e jogar rugby.",
-          hist_countries_t: "Já recebemos equipes de:",
-          hist_anos: "Anos na<br>Areia",
-          reas_h1: "Precisa de um motivo para trazer seu time?",
+          r2_t: "Sem ruck, sem maul",
+          r2_d: "Bola viva e jogo fluido.",
+          r3_t: "Sem chute em jogo aberto",
+          r3_d: "Bola na mão.",
+          r4_t: "Sem scrum, sem lineout",
+          r4_d: "Mais simples. Mais rugby.",
+          r5_t: "Substituições livres",
+          r5_d: "Tempo para se recuperar e espaço para todo mundo do time participar.",
+          r6_t: "Masculino + feminino",
+          r6_d: "A mesma competitividade. A mesma diversão.",
+          rules_note: "O formato final da competição será confirmado mais próximo ao evento.",
+
+          hist_h: "Espalhando rugby pelas praias do Rio desde <span class='text-white drop-shadow-md'>2006.</span>",
+          hist_p1: "O que começou como um torneio entre amigos cresceu e se tornou o <strong>maior evento de beach rugby das Américas</strong>.",
+          hist_p2: "E, no fundo, a ideia continua bem simples:",
+          hist_highlight: "Juntar gente boa. Curtir o Rio. Jogar rugby.",
+          hist_countries_t: "Ao longo desses mais de 20 anos, já recebemos equipes de diferentes estados do Brasil e de países como:",
+          hist_countries: chips(["Argentina", "Uruguai", "Chile", "Alemanha", "Itália", "Japão", "Portugal", "Nova Zelândia"]),
+          hist_anos: "Anos na<br />areia.",
+          hist_intl_t: "Times de todo o Brasil. Jogadores do mundo inteiro.",
+          hist_intl_p1: "O Rio Beach Rugby virou um ponto de encontro cada vez mais internacional da comunidade do rugby.",
+          hist_intl_p2: `Brasileiros, argentinos, uruguaios, chilenos, peruanos, alemães, romenos, italianos, franceses, irlandeses, ingleses, americanos, australianos, neozelandeses, zimbabuanos — ${strong("e a lista continua crescendo.", "text-white")}`,
+
+          reas_h1: "Precisa de um motivo para trazer seu time para o Rio?",
           reas_h2: "A gente te ajuda a pensar em alguns.",
-          reas_img_text: "Uma Experiência Inesquecível",
-          rsn1_t: "A Experiência",
-          rsn1_d:
-            "Jogue durante o dia. Entre no mar. Curta a cidade. No dia seguinte, faça tudo de novo cercado pelas pessoas com quem você mais gosta de dividir o campo.",
-          rsn2_t: "A Cidade",
-          rsn2_d:
-            "É o Rio de Janeiro. Praia, montanha, verão, samba e gastronomia. São poucas as viagens que você vai querer tanto fazer com o seu time.",
-          rsn3_t: "O Rugby",
-          rsn3_d:
-            "Rápido, físico e com a bola na mão. Enfrente times de várias partes. Venha para ganhar, venha pela experiência. De preferência, venha pelos dois.",
-          arc_badge: "Jogo oficial",
-          arc_tag: "Pixel · Praia · Rugby",
-          arc_t1: "Sandy Summer Arcade",
-          arc_t2: "Jogue o arcade do RBR27 e desafie seus amigos.",
-          arc_lead:
-            "Corra pela areia, faça tries e dispute o ranking com a galera do RBR27.",
+          rsn1_t: "A experiência",
+          rsn1_h: "Uma viagem que seu time vai lembrar para sempre.",
+          rsn1_d: paragraphs([
+            "Um fim de semana de rugby na praia, em pleno verão carioca, cercado pelas pessoas com quem você mais gosta de dividir o campo e o tempo fora dele.",
+            "Jogue durante o dia. Entre no mar. Pare para comer alguma coisa. Curta a cidade. No dia seguinte, faça tudo de novo.",
+            "E como o torneio acontece pouco antes do Carnaval, o Rio já começa a entrar naquele clima que todo mundo conhece.",
+            "Você não está indo só para mais um torneio.",
+            strong("Você está indo para uma experiência inesquecível."),
+          ]),
+          rsn2_t: "A cidade",
+          rsn2_h: "É o Rio de Janeiro.",
+          rsn2_d: paragraphs([
+            "Isso nos ajuda bastante.",
+            "Praia. Montanha. Verão. Samba. Gastronomia. Vida noturna. Bairros cheios de personalidade e de diversão. Alguns dos cartões-postais mais conhecidos do planeta.",
+            "Venha para o torneio e aproveite para passar alguns dias a mais descobrindo a cidade com o time.",
+            strong("Não importa de onde você venha.<br />São poucas as viagens que você vai querer tanto fazer com o seu time."),
+          ]),
+          rsn3_t: "O rugby",
+          rsn3_h: "Ah — e não se esqueça do rugby!",
+          rsn3_d: paragraphs([
+            "O Beach Rugby é rápido, físico e feito para jogar com a bola na mão.",
+            `Você vai ter a chance de enfrentar equipes de várias partes do Brasil e do exterior, desde times que chegam pensando no título até aqueles que estão procurando um fim de semana de diversão ${strong("(e um pouco de rugby).")}`,
+            "Venha para ganhar.",
+            "Venha pela experiência.",
+            strong("De preferência, venha pelos dois."),
+          ]),
+
+          arc_h: "Jogue o arcade do RBR27",
+          arc_sub: "Desafie seus amigos",
           arc_btn: "Jogar",
-          cta_h1: "E aí... Pronto para o Rio?",
-          cta_p:
-            "A essa altura, você já se imaginou aqui com a gente. Mande uma mensagem e comece a organizar a vinda do seu time.",
-          cta_btn: "Traga seu time para o Rio",
+
+          gal_h: "Isso é o Rio Beach Rugby.",
+          gal_p1: "Tackles duros. Pés ágeis. Areia para todo lado.",
+          gal_p2: "Tries. Companheiros de time. Praia. Comemoração. Mar.",
+          gal_h2: "Um fim de semana ainda melhor do que parece nas fotos.",
+          gal_cta: "Veja mais no Instagram",
+
+          cta_h1: "E aí... pronto para o Rio?",
+          cta_p: paragraphs([
+            "A essa altura, você já se imaginou aqui com a gente.",
+            "Agora, fale com a gente!",
+            "Se você está curioso ou já está pensando em trazer uma equipe masculina ou feminina para o Rio Beach Rugby 2027, mande uma mensagem. A gente conta tudo o que você precisa saber para começar a organizar a sua vinda.",
+          ]),
+          cta_instagram: "Fale com a gente no Instagram",
+
+          prt_h: "Parceiros",
+          prt_p: "O Rio Beach Rugby acontece graças a parceiros que acreditam no esporte, em experiências memoráveis e no Rio como palco global.",
+          prt_h2: "Quer colocar sua marca na areia?",
+          prt_cta: "Seja parceiro do Rio Beach Rugby",
+
           ftr_title: "Rio Beach Rugby 2027",
-          ftr_date: "23 e 24 de Jan | Rio de Janeiro",
+          ftr_date: "23 e 24 de janeiro",
+          ftr_loc: "Rio de Janeiro",
+          ftr_motto: "Sol, mar, areia e ginga",
+          ftr_org: "Realização: <span class='text-white font-bold'>Rio Rugby Football Club</span>",
           ftr_l1: "Instagram",
           ftr_l2: "WhatsApp",
-          ftr_l3: "Seja Parceiro",
-          ftr_org:
-            "Realização: <span class='text-white font-bold'>Rio Rugby Football Club</span>",
-          ftr_motto: "Sol, Mar, Areia e Ginga.",
+          ftr_l3: "Sandy Summer",
+          ftr_l4: "Parceiros",
+
           wa_head: "Fale com a gente",
           wa_o1: "Quero levar meu time",
           wa_o2: "Quero saber mais",
           wa_o3: "Patrocínio e parcerias",
+          wa_m1: "Oi! Tenho interesse em levar meu time para o Rio Beach Rugby 2027 e queria receber mais informações.",
+          wa_m2: "Oi! Queria saber mais sobre o Rio Beach Rugby 2027.",
+          wa_m3: "Oi! Tenho interesse em conversar sobre oportunidades de parceria com o Rio Beach Rugby 2027.",
         },
         en: {
           nav_menu: "Menu",
-          nav_weekend: "Tournament",
-          nav_tournament: "Format",
-          nav_history: "History",
-          nav_reasons: "Why Rio",
-          nav_arcade: "Arcade",
-          nav_cta: "Sign up",
-          hero_sup: "Sun, sea, sand, swagger.",
-          hero_t1: "Kick off the",
-          hero_t2: "Season",
-          hero_t3: "In Rio.",
-          hero_date: "Jan 23 & 24 2027",
-          hero_loc: "Rio de Janeiro",
-          hero_cta1: "Bring your team",
-          hero_cta2: "Discover",
-          wknd_h1: "The tournament you must play",
-          wknd_h2: "once in a lifetime.",
-          wknd_sub: "And you'll repeat every year.",
-          wknd_p1:
-            "A weekend packed with top-level rugby and beach days with your best friends — <strong class='text-navy font-bold'>and hundreds of new ones.</strong>",
-          wknd_highlight:
-            "Play rugby. Live Rio. Make it an unforgettable weekend.",
-          wknd_p2:
-            "Arrive a few days early. Stay a little longer. Enjoy the beach, explore new places, eat well, and turn the tournament into an epic rugby trip.",
-          wknd_carnival: "Happens weeks before Carnival!",
-          rules_subtitle: "The Rio Way",
-          rules_title: "Any level, there's a spot for you.",
-          rules_intro:
-            "Two days of Beach Rugby: fast, fun, and thrilling. Teams chasing the podium and teams chasing the sun. Everyone enjoys it.",
-          r1_t: "5 a-side",
-          r1_d: "More space to run.",
-          r2_t: "No Ruck/Maul",
-          r2_d: "Live ball, fluid game always.",
-          r3_t: "No Kicking",
-          r3_d: "Ball in hand. Pure rugby.",
-          r4_t: "No Scrums",
-          r4_d: "No scrums, no lineouts. Simpler.",
-          r5_t: "Rolling Subs",
-          r5_d: "Space for the whole team to play.",
-          r6_t: "Men + Women",
-          r6_d: "Same competition and fun.",
-          rules_note: "*Final format will be confirmed closer to the event.",
-          hist_h1: "Spreading rugby on Rio beaches since",
-          hist_p1:
-            "What started among friends grew into the biggest beach rugby event in the Americas.",
-          hist_p2:
-            "Rio Beach Rugby has become an international meeting point. The idea remains simple: good people, enjoy Rio, and play rugby.",
-          hist_countries_t: "We've hosted teams from:",
-          hist_anos: "Years on<br>Sand",
-          reas_h1: "Need a reason to bring your team?",
-          reas_h2: "We'll help you think of a few.",
-          reas_img_text: "Unforgettable Experience",
-          rsn1_t: "The Experience",
-          rsn1_d:
-            "Play during the day. Hit the ocean. Enjoy the city. Do it all over again tomorrow surrounded by your favorite people.",
-          rsn2_t: "The City",
-          rsn2_d:
-            "It's Rio de Janeiro. Beach, mountains, summer, samba. Few trips will ever compare to this one with your team.",
-          rsn3_t: "The Rugby",
-          rsn3_d:
-            "Fast, physical, ball-in-hand. Face teams from all over. Come to win, come for the experience. Better yet, come for both.",
-          arc_badge: "Official game",
-          arc_tag: "Pixel · Beach · Rugby",
-          arc_t1: "Sandy Summer Arcade",
-          arc_t2: "Play the RBR27 arcade and challenge friends.",
-          arc_lead:
-            "Run the sand, score tries, and climb the RBR27 leaderboard.",
+          nav_weekend: "The Rio Rugby Weekend",
+          nav_tournament: "The Tournament",
+          nav_history: "Since 2006",
+          nav_reasons: "Why bring your team?",
+          nav_arcade: "Sandy Summer",
+          nav_gallery: "This is Rio Beach Rugby",
+          nav_partners: "Partners",
+          nav_cta: "Ready for Rio?",
+
+          hero_sup: "Sun, sea, sand &amp; sidesteps.",
+          hero_t1: "Your next",
+          hero_t2: "rugby tour,",
+          hero_t3: "in Rio.",
+          hero_date: "23–24 January 2027",
+          hero_loc: "Rio de Janeiro, Brazil",
+          hero_p1: `Bring your team for a weekend of ${strong("beach rugby", "text-white")} — then stay a little longer to explore everything Rio has to offer.`,
+          hero_p2: "Iconic sights, incredible beaches, local culture, great food, summer nights and one of the most exciting cities in the world.",
+          hero_p3: "Come for the rugby.<br />Make a trip out of it.",
+          hero_cta2: "Discover the weekend",
+          cta_team: "Bring your team to Rio",
+
+          wknd_h: "The tournament you have to play <span class='text-orange'>at least once in your life.</span>",
+          wknd_sub: "But you’ll probably want to do it again.",
+          wknd_p1: `A weekend packed with quality rugby and full days at Rio’s iconic beaches with some of your best friends — ${strong("and hundreds of new ones.")}`,
+          wknd_p2: "Rio Beach Rugby is where competitive rugby meets summer energy, ocean views and the kind of experience that only Rio can offer.",
+          wknd_highlight: "Play rugby. Live Rio. Make it a weekend to remember.",
+          wknd_p3: "And there is no reason to fly all the way to Rio just for the weekend.",
+          wknd_p4: "Come a few days early. Stay a few days longer. Explore the city, discover the food, see the sights, experience the culture — and turn the tournament into a proper rugby tour.",
+          wknd_carnival: "<strong>Rio Beach Rugby happens just a couple of weeks before Carnival</strong>, when summer is at its peak and the city is already starting to feel the energy building.",
+
+          trn_h: "However you play rugby, there’s a place for you on the sand.",
+          trn_p1: "Some teams come to Rio to win the whole thing.",
+          trn_p2: "Some come for the sun, the beach, their mates and a very good excuse to spend a few days in Brazil.",
+          trn_p3: "Most are somewhere in between.",
+          trn_highlight: "All of them have a great weekend.",
+          trn_p4: "Rio Beach Rugby brings together Men’s and Women’s teams of different levels from Brazil and around the world for two days of fast, fun and seriously enjoyable Beach Fives.",
+          trn_p5: "",
+          trn_p6: "",
+          trn_p7: "There will be good rugby.",
+          trn_p8: "There will also be plenty of laughing, sand, tired legs and stories for the flight home.",
+          rules_title: "Beach Fives. Rio style.",
+          r1_t: "5 a side",
+          r1_d: "More space. More running.",
+          r2_t: "No rucks, no mauls",
+          r2_d: "Keep the ball alive and moving.",
+          r3_t: "No kicking",
+          r3_d: "Ball in hand. That’s the fun part anyway.",
+          r4_t: "No set piece formations",
+          r4_d: "More rugby.",
+          r5_t: "Unlimited substitutions",
+          r5_d: "Fresh legs — and plenty of chances to get the whole squad involved.",
+          r6_t: "Men’s + Women’s",
+          r6_d: "Different competitions. Same beach. Same weekend.",
+          rules_note: "Final tournament format will be confirmed closer to the event.",
+
+          hist_h: "We’ve been doing this since <span class='text-white drop-shadow-md'>2006.</span>",
+          hist_p1: "What started as a tournament between friends has grown into the <strong>biggest beach rugby event in the Americas</strong>.",
+          hist_p2: "And somehow, the idea is still pretty simple:",
+          hist_highlight: "Bring good people together. Play rugby. Enjoy Rio.",
+          hist_countries_t: "Over the years, teams have made the trip from:",
+          hist_countries: chips(["Brazil", "Argentina", "Uruguay", "Chile", "Germany", "Italy", "Japan", "Portugal", "New Zealand"]),
+          hist_anos: "Years on<br />the sand.",
+          hist_intl_t: "",
+          hist_intl_p1: "",
+          hist_intl_p2: "",
+
+          reas_h1: "Need a reason to bring your team to Rio?",
+          reas_h2: "We can think of a few.",
+          rsn1_t: "The experience",
+          rsn1_h: "This is the kind of rugby trip your squad will talk about for years.",
+          rsn1_d: paragraphs([
+            "A weekend of rugby on the beach, in the middle of a Rio summer, surrounded by some of your favourite people.",
+            "Play during the day. Jump in the ocean. Grab something to eat. Enjoy the city. Do it all again tomorrow.",
+            "And because the tournament takes place just before Carnival, Rio is already starting to turn the volume up.",
+            "You are not just entering a tournament.",
+            strong("You are giving your team an unforgettable experience."),
+          ]),
+          rsn2_t: "The city",
+          rsn2_h: "It’s Rio de Janeiro.",
+          rsn2_d: paragraphs([
+            "That already does a lot of the selling for us.",
+            "Christ the Redeemer. Sugarloaf. The beaches. Samba. Brazilian food. Nightlife. Neighbourhoods full of character. Summer everywhere.",
+            "Come for the tournament and spend a few extra days discovering the city together.",
+            strong("It might be a long way from home.<br />There aren’t many rugby trips your whole squad will be this excited about."),
+          ]),
+          rsn3_t: "The rugby",
+          rsn3_h: "Oh — and there’s some very good rugby too.",
+          rsn3_d: paragraphs([
+            "Beach Fives is quick, physical and made for attacking rugby.",
+            "You’ll get the chance to play teams from around Brazil and abroad — from sides chasing the trophy to teams simply looking for a brilliant rugby weekend.",
+            "Come to win.",
+            "Come for the experience.",
+            strong("Ideally, do both."),
+          ]),
+
+          arc_h: "Play Sandy Summer",
+          arc_sub: "Challenge your friends",
           arc_btn: "Play",
-          cta_h1: "So... Ready for Rio?",
-          cta_p:
-            "By now, you've already pictured yourself here. Send a message and start organizing your team's trip.",
-          cta_btn: "Bring your team to Rio",
+
+          gal_h: "This is Rio Beach Rugby.",
+          gal_p1: "Big tackles. Quick feet. Sand everywhere.",
+          gal_p2: "Tries. Teammates. Beach days. Celebrations. Ocean air.",
+          gal_h2: "A weekend that feels better than it looks.",
+          gal_cta: "See more on Instagram",
+
+          cta_h1: "So... ready for Rio?",
+          cta_p: paragraphs([
+            "You have probably already thought of three teammates you want to send this page to.",
+            "Now talk to us.",
+            "If you’re thinking about bringing a Men’s or Women’s team to Rio Beach Rugby 2027, send us a message and we’ll help you understand what you need to start putting the trip together.",
+            "Then comes the fun part:",
+            strong("Convincing the rest of the squad to spend a few days in Rio."),
+            "We have a feeling that won’t be too difficult.",
+          ]),
+          cta_instagram: "Message us on Instagram",
+
+          prt_h: "Partners",
+          prt_p: "Rio Beach Rugby is made possible by partners who believe in sport, memorable experiences and Rio as a global stage.",
+          prt_h2: "Want to put your brand on the sand?",
+          prt_cta: "Partner with Rio Beach Rugby",
+
           ftr_title: "Rio Beach Rugby 2027",
-          ftr_date: "Jan 23 & 24 | Rio de Janeiro",
+          ftr_date: "23–24 January",
+          ftr_loc: "Rio de Janeiro, Brazil",
+          ftr_motto: "Sun, sea, sand &amp; sidesteps.",
+          ftr_org: "Organised by <span class='text-white font-bold'>Rio Rugby Football Club</span>",
           ftr_l1: "Instagram",
           ftr_l2: "WhatsApp",
-          ftr_l3: "Partner with us",
-          ftr_org:
-            "Produced by: <span class='text-white font-bold'>Rio Rugby Football Club</span>",
-          ftr_motto: "Sun, Sea, Sand, Swagger.",
+          ftr_l3: "Sandy Summer",
+          ftr_l4: "Partners",
+
           wa_head: "Talk to us",
-          wa_o1: "I want to bring my team",
-          wa_o2: "I want to know more",
-          wa_o3: "Sponsorship & partnerships",
+          wa_o1: "Bring a team",
+          wa_o2: "Event info",
+          wa_o3: "Partnerships",
+          wa_m1: "Hi! I’m interested in bringing a team to Rio Beach Rugby 2027 and would love to get more information.",
+          wa_m2: "Hi! I’d like to know more about Rio Beach Rugby 2027.",
+          wa_m3: "Hi! I’m interested in partnership opportunities for Rio Beach Rugby 2027.",
         },
         es: {
           nav_menu: "Menú",
-          nav_weekend: "Torneo",
-          nav_tournament: "Formato",
-          nav_history: "Historia",
-          nav_reasons: "Por qué",
-          nav_arcade: "Arcade",
-          nav_cta: "Inscríbete",
-          hero_sup: "Sol, mar, arena y estilo.",
-          hero_t1: "Comienza la",
-          hero_t2: "Temporada",
-          hero_t3: "En Río.",
-          hero_date: "23 y 24 de Ene 2027",
-          hero_loc: "Río de Janeiro",
-          hero_cta1: "Trae a tu equipo",
-          hero_cta2: "Descubre",
-          wknd_h1: "El torneo que debes jugar",
-          wknd_h2: "una vez en la vida.",
-          wknd_sub: "Y querrás repetir cada año.",
-          wknd_p1:
-            "Un fin de semana de rugby de alto nivel y días de playa con tus mejores amigos — <strong class='text-navy font-bold'>y cientos de amigos nuevos.</strong>",
-          wknd_highlight:
-            "Juega rugby. Vive Río. Haz que sea un fin de semana inolvidable.",
-          wknd_p2:
-            "Llega unos días antes. Quédate un poco más. Disfruta la playa, conoce lugares y convierte el torneo en un viaje épico de rugby.",
-          wknd_carnival: "¡Ocurre semanas antes del Carnaval!",
-          rules_subtitle: "Al estilo Río",
-          rules_title: "Cualquier nivel, hay lugar para ti.",
-          rules_intro:
-            "Dos días de Beach Rugby: rápido y divertido. Equipos buscando el podio y equipos buscando el sol. Todos disfrutan.",
+          nav_weekend: "El fin de semana",
+          nav_tournament: "El torneo",
+          nav_history: "Desde 2006",
+          nav_reasons: "¿Por qué traer a tu equipo?",
+          nav_arcade: "Sandy Summer",
+          nav_gallery: "Esto es Rio Beach Rugby",
+          nav_partners: "Aliados",
+          nav_cta: "¿Están listos para venir a Río?",
+
+          hero_sup: "Sol, mar, arena y tackles.",
+          hero_t1: "Tu próxima",
+          hero_t2: "gira de rugby,",
+          hero_t3: "en Río.",
+          hero_date: "23 y 24 de enero de 2027",
+          hero_loc: "Río de Janeiro, Brasil",
+          hero_p1: `Trae a tu equipo a Río para un fin de semana de ${strong("Beach Rugby", "text-white")} — y aprovecha para quedarte unos días más y descubrir todo lo que la ciudad tiene para ofrecer.`,
+          hero_p2: "Playas increíbles, cultura, gastronomía, noches de verano y algunos de los paisajes más reconocidos del mundo.",
+          hero_p3: "Vente por el rugby.<br />Quédate por Río.",
+          hero_cta2: "Descubre el Rio Beach Rugby",
+          cta_team: "Trae a tu equipo a Río",
+
+          wknd_h: "El torneo que todo jugador debe disputar <span class='text-orange'>al menos una vez en la vida</span>",
+          wknd_sub: "Y muy probablemente quieras volver.",
+          wknd_p1: `Un fin de semana lleno de buen rugby y días enteros en las playas de Río rodeado de algunos de tus mejores amigos — ${strong("y de cientos de nuevas personas por conocer.")}`,
+          wknd_p2: "Rio Beach Rugby es el punto de encuentro entre el rugby, el verano carioca, el mar, la arena y esa energía única que solo Río sabe ofrecer.",
+          wknd_highlight: "Juega rugby. Vive Río. Haz de este un fin de semana inolvidable.",
+          wknd_p3: "Y no hay ninguna razón para venir solamente por los dos días del torneo.",
+          wknd_p4: "Vente unos días antes. Quédate un poco más. Disfruta de la playa, descubre la ciudad, prueba su gastronomía, vive la cultura — y convierte el torneo en una auténtica gira de rugby junto a tu equipo.",
+          wknd_carnival: "Rio Beach Rugby se juega unas pocas semanas antes del Carnaval, en pleno verano carioca, cuando Río empieza a transformarse y a sentir la energía de uno de los momentos más especiales del año.",
+
+          trn_h: "No importa cuál sea tu nivel ni el de tu equipo: todos pueden participar y tienen un lugar en la arena.",
+          trn_p1: "Hay equipos que llegan a Río con la mirada puesta en el podio.",
+          trn_p2: "Otros vienen por el sol, la playa, los amigos y la excusa perfecta para disfrutar unos días en Brasil.",
+          trn_p3: "Aunque la mayoría viene por todo eso junto: competir, disfrutar y vivir la ciudad.",
+          trn_highlight: "Y todos la pasan excelentemente bien.",
+          trn_p4: "Rio Beach Rugby reúne equipos masculinos y femeninos de todos los niveles, de distintas regiones de Brasil y de otros países, para disfrutar de dos días de Beach Rugby rápido, muy divertidos y llenos de emoción.",
+          trn_p5: `En 2026 recibimos ${strong("equipos de Alemania, Chile y Uruguay", "text-white")}, además de clubes de diferentes partes de Brasil.`,
+          trn_p6: `Y los partidos fueron aún más internacionales: jugadores de ${strong("más de 15 nacionalidades", "text-white")} compartieron la arena y la pasión por el rugby durante todo el fin de semana.`,
+          trn_p7: "Habrá muy buen rugby.",
+          trn_p8: "Pero también habrá muchas risas, arena hasta donde no sabías que podía llegar, piernas cansadas y unas cuantas historias para contar de regreso a casa.",
+          rules_title: "Beach Rugby. Al estilo de Río.",
           r1_t: "5 por lado",
           r1_d: "Más espacio para correr.",
-          r2_t: "Sin Ruck/Maul",
-          r2_d: "Juego vivo y fluido siempre.",
-          r3_t: "Sin Patadas",
-          r3_d: "Pelota en mano. Rugby puro.",
-          r4_t: "Sin Scrum",
-          r4_d: "Sin scrum, sin lineout. Más simple.",
-          r5_t: "Cambios Libres",
-          r5_d: "Espacio para que juegue todo el equipo.",
-          r6_t: "Masc + Fem",
-          r6_d: "La misma competencia y diversión.",
-          rules_note: "*El formato final se confirmará cerca del evento.",
-          hist_h1: "Difundiendo rugby en las playas desde",
-          hist_p1:
-            "Lo que empezó entre amigos creció y es el mayor evento de beach rugby de América.",
-          hist_p2:
-            "El Rio Beach Rugby se volvió un punto de encuentro internacional. La idea sigue simple: buena gente, disfrutar Río y jugar rugby.",
-          hist_countries_t: "Hemos recibido equipos de:",
-          hist_anos: "Años en<br>Arena",
-          reas_h1: "¿Necesitas un motivo para traer a tu equipo?",
-          reas_h2: "Te ayudamos a pensar en algunos.",
-          reas_img_text: "Experiencia Inolvidable",
-          rsn1_t: "La Experiencia",
-          rsn1_d:
-            "Juega de día. Entra al mar. Disfruta la ciudad. Hazlo de nuevo mañana rodeado de tu gente favorita.",
-          rsn2_t: "La Ciudad",
-          rsn2_d:
-            "Es Río de Janeiro. Playa, montaña, verano, samba. Pocos viajes querrás hacer tanto con tu equipo.",
-          rsn3_t: "El Rugby",
-          rsn3_d:
-            "Rápido, físico y pelota en mano. Enfrenta equipos de todas partes. Ven a ganar, ven por la experiencia o por ambos.",
-          arc_badge: "Juego oficial",
-          arc_tag: "Pixel · Playa · Rugby",
-          arc_t1: "Sandy Summer Arcade",
-          arc_t2: "Juega el arcade del RBR27 y desafía amigos.",
-          arc_lead:
-            "Corre por la arena, anota tries y pelea el ranking del RBR27.",
+          r2_t: "Sin ruck, sin maul",
+          r2_d: "Pelota viva y juego fluido.",
+          r3_t: "No está permitido patear la pelota durante el juego abierto",
+          r3_d: "La pelota siempre en la mano.",
+          r4_t: "No hay scrum, no hay lineout",
+          r4_d: "Más simple. Más rugby.",
+          r5_t: "Cambios libres e ilimitados",
+          r5_d: "Tiempo para recuperar las piernas y oportunidades para que todos entren en juego.",
+          r6_t: "Masculino + femenino",
+          r6_d: "La misma competitividad. La misma e igual diversión.",
+          rules_note: "El formato final de la competencia será confirmado cerca del evento.",
+
+          hist_h: "Llevando rugby a las playas de Río desde <span class='text-white drop-shadow-md'>2006.</span>",
+          hist_p1: "Lo que empezó como un torneo entre amigos se convirtió en el <strong>evento de Beach Rugby más grande de las Américas</strong>.",
+          hist_p2: "Y, en el fondo, la idea sigue siendo la misma desde entonces",
+          hist_highlight: "Juntar buena gente. Disfrutar de Río. Jugar rugby.",
+          hist_countries_t: "En más de 20 años hemos recibido equipos de distintas partes de Brasil y de países como:",
+          hist_countries: chips(["Argentina", "Uruguay", "Chile", "Alemania", "Italia", "Japón", "Portugal", "Nueva Zelanda"]),
+          hist_anos: "Años en<br />la arena.",
+          hist_intl_t: "Equipos de todo Brasil. Jugadores de todo el mundo.",
+          hist_intl_p1: "Rio Beach Rugby se ha convertido en un punto de encuentro cada vez más internacional para la comunidad del rugby.",
+          hist_intl_p2: `Brasileños, argentinos, uruguayos, chilenos, peruanos, alemanes, rumanos, italianos, franceses, irlandeses, ingleses, estadounidenses, australianos, neozelandeses, zimbabuenses — ${strong("y la lista sigue creciendo.", "text-white")}`,
+
+          reas_h1: "¿Necesitas o quieres más de una razón para traer a tu equipo a Río?",
+          reas_h2: "Se nos ocurren unas cuantas.",
+          rsn1_t: "Vivir la experiencia",
+          rsn1_h: "El tipo de viaje de rugby del que van a hablar durante años.",
+          rsn1_d: paragraphs([
+            "Un fin de semana de rugby en la playa, en pleno verano carioca, rodeado de algunas de tus personas favoritas.",
+            "Juega durante el día. Métete al mar. Come algo. Disfruta la ciudad. Y al día siguiente, ¡lo vuelves a hacer!",
+            "Y como el torneo se juega un poco antes del Carnaval, Río ya empieza a subir el volumen y la temperatura.",
+            "No es un torneo más.",
+            strong("Es una experiencia que tu equipo jamás olvidará."),
+          ]),
+          rsn2_t: "Vivir la ciudad",
+          rsn2_h: "Es Río de Janeiro.",
+          rsn2_d: paragraphs([
+            "Eso ya es un gran comienzo.",
+            "Cristo Redentor. Pan de Azúcar. Playas. Samba. Caipirinha, comida brasileña. Vida nocturna. Sus barrios llenos de personalidad y la noche. Es verano por todos lados.",
+            "Vente por el torneo y aprovecha para pasar unos días más descubriendo la ciudad con tus amigos.",
+            strong("Un fin de semana de rugby en Río está mucho más cerca de lo que parece."),
+            "Y son pocos los viajes de rugby que van a generar tanta expectativa en todo el equipo.",
+          ]),
+          rsn3_t: "Vivir el rugby",
+          rsn3_h: "Ah — y también hay muy buen rugby.",
+          rsn3_d: paragraphs([
+            "El Beach Rugby es una modalidad diferente, rápida, física e ideada para jugar siempre con pelota en mano.",
+            "Vas a tener la oportunidad de enfrentarte a equipos de distintas partes de Brasil y del exterior — desde los que llegan pensando en el título hasta quienes simplemente buscan un fin de semana de rugby muy diferente.",
+            strong("Ven a participar, ven por la experiencia, ven a ganar."),
+          ]),
+
+          arc_h: "Juega Sandy Summer",
+          arc_sub: "Desafía a tus amigos",
           arc_btn: "Jugar",
-          cta_h1: "Entonces... ¿Listo para Río?",
-          cta_p:
-            "Si ya te imaginaste aquí, manda un mensaje y empieza a organizar el viaje de tu equipo.",
-          cta_btn: "Trae tu equipo a Río",
+
+          gal_h: "Esto es Rio Beach Rugby.",
+          gal_p1: "Tackles duros. Pies rápidos. Arena por todos lados.",
+          gal_p2: "Tries. Compañeros de equipo. Días de playa. Festejos. Aire de mar.",
+          gal_h2: "Un fin de semana para vivirlo mucho mejor de lo puedas imaginar.",
+          gal_cta: "¿Quieres saber más? Síguenos en nuestro Instagram",
+
+          cta_h1: "Y entonces... ¿listos para Río?",
+          cta_p: paragraphs([
+            "A esta altura, probablemente ya te imaginaste estando aquí con nosotros.",
+            "Bueno, veamos:",
+            "Si sientes curiosidad o ya estás pensando en traer un equipo masculino y/o femenino al Rio Beach Rugby 2027, escríbenos. Te contamos todo lo que necesitas saber para empezar a organizar el viaje.",
+          ]),
+          cta_instagram: "Escríbenos por Instagram",
+
+          prt_h: "Aliados",
+          prt_p: "Rio Beach Rugby es posible gracias a marcas y sponsors que creen en el deporte, en las experiencias memorables y en la ciudad de Río de Janeiro como escenario global.",
+          prt_h2: "¿Quieres que tu marca aparezca en las canchas durante el torneo?",
+          prt_cta: "Suma tu marca al Rio Beach Rugby",
+
           ftr_title: "Rio Beach Rugby 2027",
-          ftr_date: "23 y 24 Ene | Río de Janeiro",
+          ftr_date: "23 y 24 de enero",
+          ftr_loc: "Río de Janeiro, Brasil",
+          ftr_motto: "Sol, mar, arena y quiebres.",
+          ftr_org: "Organizado por <span class='text-white font-bold'>Rio Rugby Football Club</span>",
           ftr_l1: "Instagram",
           ftr_l2: "WhatsApp",
-          ftr_l3: "Sé un Socio",
-          ftr_org:
-            "Realización: <span class='text-white font-bold'>Rio Rugby Football Club</span>",
-          ftr_motto: "Sol, Mar, Arena y Estilo.",
+          ftr_l3: "Sandy Summer",
+          ftr_l4: "Aliados",
+
           wa_head: "Habla con nosotros",
-          wa_o1: "Quiero llevar mi equipo",
+          wa_o1: "Quiero llevar a mi equipo",
           wa_o2: "Quiero saber más",
           wa_o3: "Patrocinio y alianzas",
+          wa_m1: "¡Hola! Me interesaría llevar a mi equipo a Rio Beach Rugby 2027 y quisiera recibir más información.",
+          wa_m2: "¡Hola! Quisiera saber más sobre Rio Beach Rugby 2027.",
+          wa_m3: "¡Hola! Me interesaría conversar sobre oportunidades de patrocinio o colaboración con Rio Beach Rugby 2027.",
         },
       };
 
       // 2. Language Switcher Logic
-      const switcher = document.getElementById("lang-switcher");
-      switcher.addEventListener("change", (e) => {
-        const lang = e.target.value;
-        document.documentElement.lang = lang;
+      const applyLanguage = (lang) => {
+        const dict = translations[lang];
+        document.documentElement.lang = HTML_LANG[lang];
         document.querySelectorAll("[data-i18n]").forEach((el) => {
-          const key = el.getAttribute("data-i18n");
-          if (translations[lang] && translations[lang][key]) {
-            el.innerHTML = translations[lang][key];
-          }
+          const value = dict[el.dataset.i18n] ?? "";
+          el.innerHTML = value;
+          el.style.display = value ? "" : "none";
         });
-      });
+        document.querySelectorAll("[data-i18n-block]").forEach((el) => {
+          el.style.display = dict[el.dataset.i18nBlock] ? "" : "none";
+        });
+        document.querySelectorAll("[data-wa]").forEach((el) => {
+          el.href = `${WA_URL}?text=${encodeURIComponent(dict[el.dataset.wa])}`;
+        });
+      };
+
+      const switcher = document.getElementById("lang-switcher");
+      switcher.addEventListener("change", (e) => applyLanguage(e.target.value));
+      applyLanguage(switcher.value);
 
       // 3. Sticky Navbar Background Change on Scroll
       const nav = document.getElementById("navbar");
@@ -1464,6 +1772,30 @@
         ) {
           toggleMenu();
         }
+      });
+
+      // 4b. Abas de "Por que trazer seu time?"
+      const rsnTabs = [...document.querySelectorAll(".rsn-tab")];
+
+      const selectRsnTab = (tab) => {
+        rsnTabs.forEach((t) => {
+          const selected = t === tab;
+          t.setAttribute("aria-selected", String(selected));
+          t.tabIndex = selected ? 0 : -1;
+          document.getElementById(t.getAttribute("aria-controls")).hidden = !selected;
+        });
+      };
+
+      rsnTabs.forEach((tab, i) => {
+        tab.addEventListener("click", () => selectRsnTab(tab));
+        tab.addEventListener("keydown", (e) => {
+          const step = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+          if (!step) return;
+          e.preventDefault();
+          const next = rsnTabs[(i + step + rsnTabs.length) % rsnTabs.length];
+          selectRsnTab(next);
+          next.focus();
+        });
       });
 
       // 5. Scroll Reveal Animations (Intersection Observer)
