@@ -107,12 +107,6 @@
       .overlap-section {
         overflow: hidden;
       }
-      /* clip não cria contêiner de rolagem, então position: sticky continua funcionando */
-      @supports (overflow: clip) {
-        .overlap-section {
-          overflow: clip;
-        }
-      }
 
       /* Mobile menu: 90% da tela, desliza de cima para baixo */
       #mobile-menu {
@@ -161,31 +155,10 @@
         animation: arcade-pulse 3s ease-in-out infinite;
       }
 
-      /* Abas de "Por que trazer seu time?" */
-      .rsn-tab[aria-selected="true"] {
-        background: #0b1354;
-        border-color: #0b1354;
-        color: #fff;
-        box-shadow: 0 10px 25px rgba(11, 19, 84, 0.25);
-      }
-      .rsn-tab[aria-selected="true"] .rsn-tab-label {
-        color: #ffb800;
-      }
-      .rsn-tab[aria-selected="true"] .rsn-tab-icon {
-        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.35);
-      }
-      @keyframes rsn-fade {
-        from {
-          opacity: 0;
-          transform: translateY(8px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .rsn-panel:not([hidden]) {
-        animation: rsn-fade 0.4s ease-out;
+      /* Mostra só parte dos parágrafos vindos das traduções; o texto completo segue nos dicionários */
+      .copy-lead > p:not(:first-child),
+      .copy-ends > p:not(:first-child):not(:last-child) {
+        display: none;
       }
     </style>
   </head>
@@ -196,7 +169,7 @@
       id="navbar"
       class="fixed w-full z-[100] transition-colors duration-300 bg-transparent"
     >
-      <div id="nav-container" class="max-w-7xl 2xl:max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 2xl:pl-40 relative h-20 md:h-28 flex justify-end items-center gap-3 md:gap-6 transition-all duration-300">
+      <div id="nav-container" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:pl-48 relative h-20 md:h-28 flex justify-end items-center gap-3 md:gap-6 transition-all duration-300">
 
         <!-- Logo (Absoluta para criar o efeito de caimento) -->
         <a href="#" class="absolute top-0 left-4 sm:left-6 lg:left-8 transition-transform duration-300 hover:scale-105 origin-top z-50">
@@ -217,31 +190,22 @@
 
         <!-- Desktop section menu -->
         <ul
-          class="hidden 2xl:flex items-center font-display font-bold uppercase tracking-normal text-xs text-white whitespace-nowrap"
+          class="hidden xl:flex items-center gap-1 font-display font-bold uppercase tracking-wide text-xs 2xl:text-sm text-white whitespace-nowrap"
         >
           <li>
-            <a href="#weekend" class="px-1.5 py-2 rounded-full hover:bg-white/10 hover:text-sun transition-colors" data-i18n="nav_weekend"></a>
+            <a href="#tournament" class="px-3 py-2 rounded-full hover:bg-white/10 hover:text-sun transition-colors" data-i18n="nav_tournament"></a>
           </li>
           <li>
-            <a href="#tournament" class="px-1.5 py-2 rounded-full hover:bg-white/10 hover:text-sun transition-colors" data-i18n="nav_tournament"></a>
+            <a href="#reasons" class="px-3 py-2 rounded-full hover:bg-white/10 hover:text-sun transition-colors" data-i18n="nav_reasons"></a>
           </li>
           <li>
-            <a href="#history" class="px-1.5 py-2 rounded-full hover:bg-white/10 hover:text-sun transition-colors" data-i18n="nav_history"></a>
+            <a href="#arcade" class="px-3 py-2 rounded-full text-sun hover:bg-white/10 transition-colors" data-i18n="nav_arcade"></a>
           </li>
           <li>
-            <a href="#reasons" class="px-1.5 py-2 rounded-full hover:bg-white/10 hover:text-sun transition-colors" data-i18n="nav_reasons"></a>
+            <a href="#partners" class="px-3 py-2 rounded-full hover:bg-white/10 hover:text-sun transition-colors" data-i18n="nav_partners"></a>
           </li>
-          <li>
-            <a href="#arcade" class="px-1.5 py-2 rounded-full bg-sun/20 text-sun border border-sun/40 hover:bg-sun hover:text-navy transition-colors" data-i18n="nav_arcade"></a>
-          </li>
-          <li>
-            <a href="#gallery" class="px-1.5 py-2 rounded-full hover:bg-white/10 hover:text-sun transition-colors" data-i18n="nav_gallery"></a>
-          </li>
-          <li>
-            <a href="#partners" class="px-1.5 py-2 rounded-full hover:bg-white/10 hover:text-sun transition-colors" data-i18n="nav_partners"></a>
-          </li>
-          <li>
-            <a href="#cta" class="px-3 py-2 rounded-full bg-orange text-white hover:bg-sun hover:text-navy transition-colors" data-i18n="nav_cta"></a>
+          <li class="ml-2">
+            <a href="#cta" class="px-4 py-2.5 rounded-full bg-orange text-white hover:bg-sun hover:text-navy transition-colors" data-i18n="nav_cta"></a>
           </li>
         </ul>
 
@@ -266,7 +230,7 @@
         <button
           id="menu-toggle"
           type="button"
-          class="2xl:hidden relative z-10 w-11 h-11 flex flex-col items-center justify-center gap-[5px] rounded-full border-2 border-white/20 bg-navy text-white hover:border-orange transition-colors"
+          class="xl:hidden relative z-10 w-11 h-11 flex flex-col items-center justify-center gap-[5px] rounded-full border-2 border-white/20 bg-navy text-white hover:border-orange transition-colors"
           aria-label="Abrir menu"
           aria-expanded="false"
           aria-controls="mobile-menu"
@@ -278,15 +242,15 @@
       </div>
     </nav>
 
-    <!-- Mobile menu overlay + drawer (90% width, full height) -->
+    <!-- Mobile menu overlay + drawer -->
     <div
       id="mobile-overlay"
-      class="fixed inset-0 z-[110] bg-navy/70 backdrop-blur-sm 2xl:hidden"
+      class="fixed inset-0 z-[110] bg-navy/70 backdrop-blur-sm xl:hidden"
       aria-hidden="true"
     ></div>
     <aside
       id="mobile-menu"
-      class="fixed top-0 left-0 right-0 z-[120] h-[90vh] w-full bg-navy border-b-4 border-orange shadow-2xl 2xl:hidden flex flex-col rounded-b-[2rem]"
+      class="fixed top-0 left-0 right-0 z-[120] max-h-[90vh] w-full bg-navy border-b-4 border-orange shadow-2xl xl:hidden flex flex-col rounded-b-[2rem]"
       aria-hidden="true"
       role="dialog"
       aria-modal="true"
@@ -303,25 +267,16 @@
           <i class="fas fa-times text-xl"></i>
         </button>
       </div>
-      <nav class="flex-1 overflow-y-auto px-6 py-8">
+      <nav class="flex-1 overflow-y-auto px-6 py-6">
         <ul class="flex flex-col gap-2 font-display font-black uppercase tracking-wide text-xl sm:text-2xl text-white">
           <li>
-            <a href="#weekend" class="mobile-nav-link block py-4 border-b border-white/10 hover:text-sun transition-colors" data-i18n="nav_weekend"></a>
-          </li>
-          <li>
             <a href="#tournament" class="mobile-nav-link block py-4 border-b border-white/10 hover:text-sun transition-colors" data-i18n="nav_tournament"></a>
-          </li>
-          <li>
-            <a href="#history" class="mobile-nav-link block py-4 border-b border-white/10 hover:text-sun transition-colors" data-i18n="nav_history"></a>
           </li>
           <li>
             <a href="#reasons" class="mobile-nav-link block py-4 border-b border-white/10 hover:text-sun transition-colors" data-i18n="nav_reasons"></a>
           </li>
           <li>
             <a href="#arcade" class="mobile-nav-link block py-4 border-b border-white/10 text-sun hover:text-orange transition-colors" data-i18n="nav_arcade"></a>
-          </li>
-          <li>
-            <a href="#gallery" class="mobile-nav-link block py-4 border-b border-white/10 hover:text-sun transition-colors" data-i18n="nav_gallery"></a>
           </li>
           <li>
             <a href="#partners" class="mobile-nav-link block py-4 border-b border-white/10 hover:text-sun transition-colors" data-i18n="nav_partners"></a>
@@ -350,7 +305,7 @@
       </div>
 
       <div
-        class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-28 md:pt-36"
+        class="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-28 md:pt-36"
       >
         <div
           class="inline-block bg-orange text-white font-display font-bold uppercase tracking-[0.2em] px-4 py-1 rounded-full mb-6 text-xs md:text-sm shadow-lg reveal"
@@ -366,31 +321,22 @@
         </h1>
 
         <div
-          class="flex flex-wrap items-center justify-center gap-4 text-white font-display font-bold tracking-wider uppercase text-base md:text-xl mb-10 reveal reveal-delay-2"
+          class="flex flex-wrap items-center justify-center gap-3 text-white font-display font-bold tracking-wider uppercase text-sm md:text-lg mb-8 reveal reveal-delay-2"
         >
-          <span
-            class="bg-orange px-6 py-3 rounded-full border border-orange text-white shadow-lg"
-          >Rio Beach Rugby 2027</span>
-          <span
-            class="bg-white/10 backdrop-blur-md px-6 py-3 rounded-full border border-white/20"
-            data-i18n="hero_date"
-          ></span>
-          <span
-            class="bg-navy px-6 py-3 rounded-full border border-orange text-orange shadow-lg"
-            data-i18n="hero_loc"
-          ></span>
+          <span class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-5 py-2.5 rounded-full border border-white/20">
+            <i class="far fa-calendar text-sun"></i>
+            <span data-i18n="hero_date"></span>
+          </span>
+          <span class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-5 py-2.5 rounded-full border border-white/20">
+            <i class="fas fa-location-dot text-orange"></i>
+            <span data-i18n="hero_loc"></span>
+          </span>
         </div>
 
-        <div
-          class="max-w-3xl mx-auto space-y-4 text-lg md:text-xl text-white/85 font-medium mb-10 reveal reveal-delay-2"
-        >
-          <p data-i18n="hero_p1"></p>
-          <p data-i18n="hero_p2"></p>
-          <p
-            class="font-display font-black uppercase text-sun text-xl md:text-2xl"
-            data-i18n="hero_p3"
-          ></p>
-        </div>
+        <p
+          class="max-w-2xl mx-auto text-lg md:text-xl text-white/85 font-medium mb-10 reveal reveal-delay-2"
+          data-i18n="hero_p1"
+        ></p>
 
         <div
           class="flex flex-col sm:flex-row items-center justify-center gap-4 reveal reveal-delay-2"
@@ -418,7 +364,7 @@
     <!-- 02 — O FIM DE SEMANA -->
     <section
       id="weekend"
-      class="bg-white rounded-t-[3rem] md:rounded-t-[6rem] -mt-20 md:-mt-32 relative z-10 pt-20 md:pt-28 pb-24 overlap-section shadow-[0_-10px_40px_rgba(0,0,0,0.2)] pb-[10rem] scroll-mt-20"
+      class="bg-white rounded-t-[3rem] md:rounded-t-[6rem] -mt-20 md:-mt-32 relative z-10 pt-20 md:pt-28 overlap-section shadow-[0_-10px_40px_rgba(0,0,0,0.2)] pb-[10rem] scroll-mt-20"
     >
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -427,66 +373,42 @@
               class="font-display font-black text-4xl md:text-5xl text-navy uppercase leading-tight mb-4"
               data-i18n="wknd_h"
             ></h2>
-
             <p
-              class="font-display font-bold text-2xl text-sun mb-8"
+              class="font-display font-bold text-2xl text-sun mb-6"
               data-i18n="wknd_sub"
             ></p>
-
-            <div class="space-y-6 text-lg text-gray-700 font-medium">
-              <p data-i18n="wknd_p1"></p>
-              <p data-i18n="wknd_p2"></p>
-
-              <div
-                class="bg-offwhite p-6 rounded-2xl border-l-8 border-orange shadow-sm"
-              >
-                <p
-                  class="font-display uppercase text-xl text-navy font-black"
-                  data-i18n="wknd_highlight"
-                ></p>
-              </div>
-            </div>
-          </div>
-
-          <div class="relative reveal reveal-delay-1">
+            <p class="text-lg text-gray-700 font-medium mb-8" data-i18n="wknd_p1"></p>
             <div
-              class="absolute inset-0 bg-orange rounded-3xl transform translate-x-4 translate-y-4 md:translate-x-6 md:translate-y-6"
-            ></div>
-            <img
-              src="imagem-04.avif"
-              alt="Jogadoras sorrindo"
-              class="relative z-10 w-full h-auto object-cover rounded-3xl shadow-xl border-4 border-white"
-              onerror="
-                this.src =
-                  'https://placehold.co/600x400/F27405/FFFFFF?text=Jogadoras+Rio'
-              "
-            />
-          </div>
-        </div>
-
-        <div class="mt-16 md:mt-24 grid grid-cols-1 lg:grid-cols-5 gap-6 reveal">
-          <div
-            class="lg:col-span-3 bg-offwhite rounded-3xl p-8 md:p-10 border border-gray-100 shadow-sm flex gap-5"
-          >
-            <div
-              class="shrink-0 bg-navy text-white w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-md"
+              class="bg-offwhite p-6 rounded-2xl border-l-8 border-orange shadow-sm"
             >
-              <i class="fas fa-suitcase-rolling"></i>
-            </div>
-            <div class="space-y-3 text-lg text-gray-700 font-medium">
               <p
-                class="font-display font-black text-navy text-xl md:text-2xl leading-snug"
-                data-i18n="wknd_p3"
+                class="font-display uppercase text-xl text-navy font-black"
+                data-i18n="wknd_highlight"
               ></p>
-              <p data-i18n="wknd_p4"></p>
             </div>
           </div>
 
-          <div
-            class="lg:col-span-2 bg-sun text-navy rounded-3xl p-8 md:p-10 shadow-md flex flex-col justify-center gap-4"
-          >
-            <i class="fas fa-fire text-orange text-3xl"></i>
-            <p class="text-lg font-medium" data-i18n="wknd_carnival"></p>
+          <div class="reveal reveal-delay-1">
+            <div class="relative">
+              <div
+                class="absolute inset-0 bg-orange rounded-3xl transform translate-x-4 translate-y-4 md:translate-x-6 md:translate-y-6"
+              ></div>
+              <img
+                src="imagem-04.avif"
+                alt="Jogadoras sorrindo"
+                class="relative z-10 w-full h-auto object-cover rounded-3xl shadow-xl border-4 border-white"
+                onerror="
+                  this.src =
+                    'https://placehold.co/600x400/F27405/FFFFFF?text=Jogadoras+Rio'
+                "
+              />
+            </div>
+            <div
+              class="relative z-20 -mt-12 mx-4 sm:mx-10 flex items-start gap-3 bg-sun text-navy px-5 py-4 rounded-2xl shadow-xl"
+            >
+              <i class="fas fa-fire text-orange text-xl mt-0.5"></i>
+              <p class="font-medium" data-i18n="wknd_carnival"></p>
+            </div>
           </div>
         </div>
       </div>
@@ -495,258 +417,93 @@
     <!-- 03 — O TORNEIO -->
     <section
       id="tournament"
-      class="bg-navy text-white rounded-t-[3rem] md:rounded-t-[6rem] -mt-20 md:-mt-32 relative z-20 pt-20 md:pt-28 pb-32 overlap-section shadow-[0_-10px_40px_rgba(0,0,0,0.3)] pb-[10rem] scroll-mt-20"
+      class="bg-navy text-white rounded-t-[3rem] md:rounded-t-[6rem] -mt-20 md:-mt-32 relative z-20 pt-20 md:pt-28 overlap-section shadow-[0_-10px_40px_rgba(0,0,0,0.3)] pb-[10rem] scroll-mt-20"
     >
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="max-w-4xl mx-auto text-center mb-12 reveal">
+        <div class="max-w-3xl mx-auto text-center mb-14 reveal">
           <h2
-            class="font-display font-black text-4xl md:text-6xl uppercase text-white leading-tight"
+            class="font-display font-black text-4xl md:text-5xl uppercase text-white leading-tight mb-6"
             data-i18n="trn_h"
           ></h2>
-        </div>
-
-        <!-- Perfis de time -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-10">
-          <div
-            class="bg-white/5 border border-white/10 rounded-3xl p-6 md:p-8 reveal"
-          >
-            <i class="fas fa-trophy text-sun text-3xl mb-4"></i>
-            <p class="text-lg text-gray-200 font-medium" data-i18n="trn_p1"></p>
-          </div>
-          <div
-            class="bg-white/5 border border-white/10 rounded-3xl p-6 md:p-8 reveal reveal-delay-1"
-          >
-            <i class="fas fa-umbrella-beach text-sun text-3xl mb-4"></i>
-            <p class="text-lg text-gray-200 font-medium" data-i18n="trn_p2"></p>
-          </div>
-          <div
-            class="bg-white/5 border border-white/10 rounded-3xl p-6 md:p-8 reveal reveal-delay-2"
-          >
-            <i class="fas fa-scale-balanced text-sun text-3xl mb-4"></i>
-            <p class="text-lg text-gray-200 font-medium" data-i18n="trn_p3"></p>
-          </div>
-        </div>
-
-        <p
-          class="text-center font-display font-black uppercase text-sun text-2xl md:text-3xl mb-16 md:mb-20 reveal"
-          data-i18n="trn_highlight"
-        ></p>
-
-        <!-- Quem joga -->
-        <div class="flex flex-col lg:flex-row gap-6 md:gap-8 mb-16 md:mb-20 reveal">
-          <div
-            class="lg:flex-1 bg-orange rounded-3xl p-8 md:p-10 flex items-center shadow-xl"
-          >
-            <p
-              class="text-xl md:text-2xl text-white font-bold leading-relaxed"
-              data-i18n="trn_p4"
-            ></p>
-          </div>
-          <div
-            class="lg:flex-1 flex flex-col gap-4 md:gap-6"
-            data-i18n-block="trn_p5"
-          >
-            <div
-              class="flex-1 bg-white/5 border border-white/10 rounded-3xl p-6 md:p-8 flex items-start gap-5"
-            >
-              <div
-                class="shrink-0 bg-sun text-navy w-14 h-14 rounded-2xl flex items-center justify-center text-2xl"
-              >
-                <i class="fas fa-earth-americas"></i>
-              </div>
-              <p class="text-lg text-gray-300 font-medium" data-i18n="trn_p5"></p>
-            </div>
-            <div
-              class="flex-1 bg-white/5 border border-white/10 rounded-3xl p-6 md:p-8 flex items-start gap-5"
-              data-i18n-block="trn_p6"
-            >
-              <div
-                class="shrink-0 bg-sun text-navy w-14 h-14 rounded-2xl flex items-center justify-center text-2xl"
-              >
-                <i class="fas fa-flag"></i>
-              </div>
-              <p class="text-lg text-gray-300 font-medium" data-i18n="trn_p6"></p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Fechamento -->
-        <div class="max-w-3xl mx-auto text-center mb-16 md:mb-20 reveal">
-          <p
-            class="font-display font-black uppercase text-white text-2xl md:text-3xl mb-3"
-            data-i18n="trn_p7"
-          ></p>
-          <p class="text-lg md:text-xl text-gray-300 font-medium" data-i18n="trn_p8"></p>
+          <p class="text-lg md:text-xl text-gray-300 font-medium" data-i18n="trn_p4"></p>
         </div>
 
         <h3
-          class="text-center font-display font-black text-orange tracking-[0.15em] uppercase text-2xl md:text-3xl mb-10 reveal"
+          class="text-center font-display font-black text-orange tracking-[0.15em] uppercase text-2xl md:text-3xl mb-8 reveal"
           data-i18n="rules_title"
         ></h3>
 
-        <!-- Rules Grid -->
-        <div
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
-        >
-          <div
-            class="bg-white rounded-3xl p-8 shadow-xl hover:-translate-y-2 transition-transform duration-300 reveal border-b-8 border-orange group"
-          >
-            <div
-              class="bg-navy text-white w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-md group-hover:bg-orange transition-colors"
-            >
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+          <div class="bg-white rounded-2xl p-5 md:p-6 flex items-start gap-4 border-b-4 border-orange reveal">
+            <div class="shrink-0 bg-navy text-white w-12 h-12 rounded-xl flex items-center justify-center text-xl">
               <i class="fas fa-hand-paper"></i>
             </div>
-            <h4 class="font-display font-black text-2xl uppercase mb-3 text-navy" data-i18n="r1_t"></h4>
-            <p class="font-sans font-medium text-gray-600 text-lg" data-i18n="r1_d"></p>
+            <div>
+              <h4 class="font-display font-black text-lg uppercase text-navy leading-tight mb-1" data-i18n="r1_t"></h4>
+              <p class="text-gray-600 font-medium" data-i18n="r1_d"></p>
+            </div>
           </div>
-          <div
-            class="bg-white rounded-3xl p-8 shadow-xl hover:-translate-y-2 transition-transform duration-300 reveal reveal-delay-1 border-b-8 border-sun group"
-          >
-            <div
-              class="bg-navy text-white w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-md group-hover:bg-sun transition-colors group-hover:text-navy"
-            >
+          <div class="bg-white rounded-2xl p-5 md:p-6 flex items-start gap-4 border-b-4 border-sun reveal reveal-delay-1">
+            <div class="shrink-0 bg-navy text-white w-12 h-12 rounded-xl flex items-center justify-center text-xl">
               <i class="fas fa-bolt"></i>
             </div>
-            <h4 class="font-display font-black text-2xl uppercase mb-3 text-navy" data-i18n="r2_t"></h4>
-            <p class="font-sans font-medium text-gray-600 text-lg" data-i18n="r2_d"></p>
+            <div>
+              <h4 class="font-display font-black text-lg uppercase text-navy leading-tight mb-1" data-i18n="r2_t"></h4>
+              <p class="text-gray-600 font-medium" data-i18n="r2_d"></p>
+            </div>
           </div>
-          <div
-            class="bg-white rounded-3xl p-8 shadow-xl hover:-translate-y-2 transition-transform duration-300 reveal reveal-delay-2 border-b-8 border-orange group"
-          >
-            <div
-              class="bg-navy text-white w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-md group-hover:bg-orange transition-colors"
-            >
+          <div class="bg-white rounded-2xl p-5 md:p-6 flex items-start gap-4 border-b-4 border-orange reveal reveal-delay-2">
+            <div class="shrink-0 bg-navy text-white w-12 h-12 rounded-xl flex items-center justify-center text-xl">
               <i class="fas fa-ban"></i>
             </div>
-            <h4 class="font-display font-black text-2xl uppercase mb-3 text-navy" data-i18n="r3_t"></h4>
-            <p class="font-sans font-medium text-gray-600 text-lg" data-i18n="r3_d"></p>
+            <div>
+              <h4 class="font-display font-black text-lg uppercase text-navy leading-tight mb-1" data-i18n="r3_t"></h4>
+              <p class="text-gray-600 font-medium" data-i18n="r3_d"></p>
+            </div>
           </div>
-          <div
-            class="bg-white rounded-3xl p-8 shadow-xl hover:-translate-y-2 transition-transform duration-300 reveal border-b-8 border-sun group"
-          >
-            <div
-              class="bg-navy text-white w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-md group-hover:bg-sun transition-colors group-hover:text-navy"
-            >
+          <div class="bg-white rounded-2xl p-5 md:p-6 flex items-start gap-4 border-b-4 border-sun reveal">
+            <div class="shrink-0 bg-navy text-white w-12 h-12 rounded-xl flex items-center justify-center text-xl">
               <i class="fas fa-users-slash"></i>
             </div>
-            <h4 class="font-display font-black text-2xl uppercase mb-3 text-navy" data-i18n="r4_t"></h4>
-            <p class="font-sans font-medium text-gray-600 text-lg" data-i18n="r4_d"></p>
+            <div>
+              <h4 class="font-display font-black text-lg uppercase text-navy leading-tight mb-1" data-i18n="r4_t"></h4>
+              <p class="text-gray-600 font-medium" data-i18n="r4_d"></p>
+            </div>
           </div>
-          <div
-            class="bg-white rounded-3xl p-8 shadow-xl hover:-translate-y-2 transition-transform duration-300 reveal reveal-delay-1 border-b-8 border-orange group"
-          >
-            <div
-              class="bg-navy text-white w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-md group-hover:bg-orange transition-colors group-hover:rotate-180 duration-500"
-            >
+          <div class="bg-white rounded-2xl p-5 md:p-6 flex items-start gap-4 border-b-4 border-orange reveal reveal-delay-1">
+            <div class="shrink-0 bg-navy text-white w-12 h-12 rounded-xl flex items-center justify-center text-xl">
               <i class="fas fa-sync-alt"></i>
             </div>
-            <h4 class="font-display font-black text-2xl uppercase mb-3 text-navy" data-i18n="r5_t"></h4>
-            <p class="font-sans font-medium text-gray-600 text-lg" data-i18n="r5_d"></p>
+            <div>
+              <h4 class="font-display font-black text-lg uppercase text-navy leading-tight mb-1" data-i18n="r5_t"></h4>
+              <p class="text-gray-600 font-medium" data-i18n="r5_d"></p>
+            </div>
           </div>
-          <div
-            class="bg-white rounded-3xl p-8 shadow-xl hover:-translate-y-2 transition-transform duration-300 reveal reveal-delay-2 border-b-8 border-sun group"
-          >
-            <div
-              class="bg-navy text-white w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-md group-hover:bg-sun transition-colors group-hover:text-navy"
-            >
+          <div class="bg-white rounded-2xl p-5 md:p-6 flex items-start gap-4 border-b-4 border-sun reveal reveal-delay-2">
+            <div class="shrink-0 bg-navy text-white w-12 h-12 rounded-xl flex items-center justify-center text-xl">
               <i class="fas fa-venus-mars"></i>
             </div>
-            <h4 class="font-display font-black text-2xl uppercase mb-3 text-navy" data-i18n="r6_t"></h4>
-            <p class="font-sans font-medium text-gray-600 text-lg" data-i18n="r6_d"></p>
+            <div>
+              <h4 class="font-display font-black text-lg uppercase text-navy leading-tight mb-1" data-i18n="r6_t"></h4>
+              <p class="text-gray-600 font-medium" data-i18n="r6_d"></p>
+            </div>
           </div>
         </div>
 
         <p
-          class="text-center text-sm md:text-base text-gray-400 mt-12 font-sans italic reveal"
+          class="text-center text-sm text-gray-400 mt-10 font-sans italic reveal"
           data-i18n="rules_note"
         ></p>
       </div>
     </section>
 
-    <!-- 04 — DESDE 2006 -->
-    <section
-      id="history"
-      class="bg-sun text-navy rounded-t-[3rem] md:rounded-t-[6rem] -mt-20 md:-mt-32 relative z-30 pt-20 md:pt-28 pb-24 overlap-section shadow-[0_-10px_40px_rgba(0,0,0,0.2)] pb-[10rem] scroll-mt-20"
-    >
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div
-          class="flex flex-col md:flex-row items-center justify-between gap-12"
-        >
-          <div class="w-full md:w-1/2 reveal">
-            <h2
-              class="font-display font-black text-4xl md:text-6xl text-navy uppercase leading-[1.1] mb-6"
-              data-i18n="hist_h"
-            ></h2>
-            <p class="text-xl font-bold mb-6" data-i18n="hist_p1"></p>
-            <p class="text-lg font-medium mb-2 text-navy/80" data-i18n="hist_p2"></p>
-            <p
-              class="font-display font-black uppercase text-2xl text-navy mb-8"
-              data-i18n="hist_highlight"
-            ></p>
-
-            <div
-              class="bg-white p-6 rounded-3xl shadow-lg border-2 border-navy/10"
-            >
-              <p
-                class="font-display font-black text-orange uppercase tracking-widest text-sm mb-4"
-                data-i18n="hist_countries_t"
-              ></p>
-              <div
-                class="flex flex-wrap gap-2 font-display uppercase font-bold text-sm text-white"
-                data-i18n="hist_countries"
-              ></div>
-            </div>
-          </div>
-
-          <div class="w-full md:w-1/2 reveal reveal-delay-1 relative">
-            <div
-              class="absolute -top-6 -right-6 md:-top-10 md:-right-10 z-20 bg-orange text-white w-32 h-32 md:w-40 md:h-40 rounded-full flex flex-col items-center justify-center shadow-xl border-4 border-sun transform rotate-12"
-            >
-              <span
-                class="font-display font-black text-4xl md:text-5xl leading-none"
-                >20+</span
-              >
-              <span
-                class="font-display font-bold uppercase text-xs md:text-sm tracking-widest text-center mt-1"
-                data-i18n="hist_anos"
-              ></span>
-            </div>
-
-            <img
-              src="imagem-01.avif"
-              alt="História do RBR"
-              class="w-full h-auto object-cover rounded-3xl shadow-2xl border-8 border-white relative z-10"
-              onerror="
-                this.src =
-                  'https://placehold.co/600x400/0B1354/FFFFFF?text=RBR+History'
-              "
-            />
-          </div>
-        </div>
-
-        <div
-          class="mt-16 bg-navy text-white rounded-3xl p-8 md:p-12 shadow-xl reveal grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-10 items-center"
-          data-i18n-block="hist_intl_t"
-        >
-          <h3
-            class="md:col-span-2 font-display font-black uppercase text-2xl md:text-3xl text-sun leading-tight"
-            data-i18n="hist_intl_t"
-          ></h3>
-          <div class="md:col-span-3 space-y-4 md:border-l md:border-white/15 md:pl-10">
-            <p class="text-lg font-medium text-white/85" data-i18n="hist_intl_p1"></p>
-            <p class="text-lg font-medium text-white/85" data-i18n="hist_intl_p2"></p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 05 — POR QUE TRAZER SEU TIME? -->
+    <!-- 04 — POR QUE TRAZER SEU TIME? -->
     <section
       id="reasons"
-      class="bg-offwhite rounded-t-[3rem] md:rounded-t-[6rem] -mt-20 md:-mt-32 relative z-40 pt-20 md:pt-28 pb-24 overlap-section shadow-[0_-10px_40px_rgba(0,0,0,0.1)] pb-[10rem] scroll-mt-20"
+      class="bg-offwhite rounded-t-[3rem] md:rounded-t-[6rem] -mt-20 md:-mt-32 relative z-30 pt-20 md:pt-28 overlap-section shadow-[0_-10px_40px_rgba(0,0,0,0.1)] pb-[10rem] scroll-mt-20"
     >
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16 reveal">
+        <div class="text-center mb-14 reveal">
           <h2
             class="font-display font-black text-4xl md:text-5xl text-navy uppercase mb-4"
             data-i18n="reas_h1"
@@ -757,150 +514,46 @@
           ></p>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          <div
-            class="lg:col-span-5 lg:sticky lg:top-28 rounded-[2rem] overflow-hidden shadow-2xl reveal relative h-64 md:h-[400px] lg:h-[560px]"
-          >
-            <img
-              src="imagem-03.avif"
-              alt="Rugby Action"
-              class="w-full h-full object-cover object-top"
-              onerror="
-                this.src =
-                  'https://placehold.co/1200x600/F27405/FFFFFF?text=Action+Shot'
-              "
-            />
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-navy/60 via-transparent to-transparent"
-            ></div>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+          <div class="bg-white rounded-[2rem] p-8 shadow-lg border border-gray-100 reveal">
+            <div class="w-14 h-14 bg-navy text-white rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-md">
+              <i class="fas fa-sun"></i>
+            </div>
+            <p class="font-display font-bold text-orange uppercase tracking-widest text-sm mb-2">
+              01 — <span data-i18n="rsn1_t"></span>
+            </p>
+            <h3 class="font-display font-black text-2xl uppercase text-navy leading-tight mb-4" data-i18n="rsn1_h"></h3>
+            <div class="copy-ends space-y-3 text-gray-600 font-medium text-lg leading-relaxed" data-i18n="rsn1_d"></div>
           </div>
 
-          <div class="lg:col-span-7 reveal reveal-delay-1">
-            <div
-              role="tablist"
-              aria-label="Motivos"
-              class="grid grid-cols-3 gap-2 md:gap-3 mb-6"
-            >
-              <button
-                type="button"
-                role="tab"
-                id="rsn-tab-1"
-                aria-controls="rsn-panel-1"
-                aria-selected="true"
-                class="rsn-tab flex flex-col items-center gap-3 text-center bg-white text-navy border-2 border-gray-100 rounded-2xl px-2 py-4 md:px-4 md:py-5 hover:border-orange transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-orange"
-              >
-                <span
-                  class="rsn-tab-icon w-12 h-12 bg-navy text-white rounded-xl flex items-center justify-center text-2xl shadow-md"
-                >
-                  <i class="fas fa-sun"></i>
-                </span>
-                <span
-                  class="rsn-tab-label font-display font-bold text-orange uppercase tracking-wider text-[0.65rem] sm:text-xs md:text-sm leading-tight"
-                >
-                  01 — <span data-i18n="rsn1_t"></span>
-                </span>
-              </button>
-              <button
-                type="button"
-                role="tab"
-                id="rsn-tab-2"
-                aria-controls="rsn-panel-2"
-                aria-selected="false"
-                tabindex="-1"
-                class="rsn-tab flex flex-col items-center gap-3 text-center bg-white text-navy border-2 border-gray-100 rounded-2xl px-2 py-4 md:px-4 md:py-5 hover:border-orange transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-orange"
-              >
-                <span
-                  class="rsn-tab-icon w-12 h-12 bg-orange text-white rounded-xl flex items-center justify-center text-2xl shadow-md"
-                >
-                  <i class="fas fa-mountain"></i>
-                </span>
-                <span
-                  class="rsn-tab-label font-display font-bold text-orange uppercase tracking-wider text-[0.65rem] sm:text-xs md:text-sm leading-tight"
-                >
-                  02 — <span data-i18n="rsn2_t"></span>
-                </span>
-              </button>
-              <button
-                type="button"
-                role="tab"
-                id="rsn-tab-3"
-                aria-controls="rsn-panel-3"
-                aria-selected="false"
-                tabindex="-1"
-                class="rsn-tab flex flex-col items-center gap-3 text-center bg-white text-navy border-2 border-gray-100 rounded-2xl px-2 py-4 md:px-4 md:py-5 hover:border-orange transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-orange"
-              >
-                <span
-                  class="rsn-tab-icon w-12 h-12 bg-sun text-navy rounded-xl flex items-center justify-center shadow-md"
-                >
-                  <img
-                    src="fa-rugby-ball.png"
-                    alt=""
-                    class="w-7 h-7 object-contain"
-                  />
-                </span>
-                <span
-                  class="rsn-tab-label font-display font-bold text-orange uppercase tracking-wider text-[0.65rem] sm:text-xs md:text-sm leading-tight"
-                >
-                  03 — <span data-i18n="rsn3_t"></span>
-                </span>
-              </button>
+          <div class="bg-white rounded-[2rem] p-8 shadow-lg border border-gray-100 reveal reveal-delay-1">
+            <div class="w-14 h-14 bg-orange text-white rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-md">
+              <i class="fas fa-mountain"></i>
             </div>
+            <p class="font-display font-bold text-orange uppercase tracking-widest text-sm mb-2">
+              02 — <span data-i18n="rsn2_t"></span>
+            </p>
+            <h3 class="font-display font-black text-2xl uppercase text-navy leading-tight mb-4" data-i18n="rsn2_h"></h3>
+            <div class="copy-ends space-y-3 text-gray-600 font-medium text-lg leading-relaxed" data-i18n="rsn2_d"></div>
+          </div>
 
-            <div
-              class="bg-white rounded-[2rem] p-8 md:p-10 shadow-lg border border-gray-100"
-            >
-              <div
-                role="tabpanel"
-                id="rsn-panel-1"
-                aria-labelledby="rsn-tab-1"
-                class="rsn-panel"
-              >
-                <h3
-                  class="font-display font-black text-2xl md:text-3xl uppercase text-navy mb-6 leading-tight"
-                  data-i18n="rsn1_h"
-                ></h3>
-                <div
-                  class="space-y-4 font-sans font-medium text-gray-600 text-lg leading-relaxed"
-                  data-i18n="rsn1_d"
-                ></div>
-              </div>
-              <div
-                role="tabpanel"
-                id="rsn-panel-2"
-                aria-labelledby="rsn-tab-2"
-                class="rsn-panel"
-                hidden
-              >
-                <h3
-                  class="font-display font-black text-2xl md:text-3xl uppercase text-navy mb-6 leading-tight"
-                  data-i18n="rsn2_h"
-                ></h3>
-                <div
-                  class="space-y-4 font-sans font-medium text-gray-600 text-lg leading-relaxed"
-                  data-i18n="rsn2_d"
-                ></div>
-              </div>
-              <div
-                role="tabpanel"
-                id="rsn-panel-3"
-                aria-labelledby="rsn-tab-3"
-                class="rsn-panel"
-                hidden
-              >
-                <h3
-                  class="font-display font-black text-2xl md:text-3xl uppercase text-navy mb-6 leading-tight"
-                  data-i18n="rsn3_h"
-                ></h3>
-                <div
-                  class="space-y-4 font-sans font-medium text-gray-600 text-lg leading-relaxed"
-                  data-i18n="rsn3_d"
-                ></div>
-              </div>
+          <div class="bg-white rounded-[2rem] p-8 shadow-lg border border-gray-100 reveal reveal-delay-2">
+            <div class="w-14 h-14 bg-sun text-navy rounded-2xl flex items-center justify-center mb-6 shadow-md">
+              <img src="fa-rugby-ball.png" alt="" class="w-7 h-7 object-contain" />
             </div>
+            <p class="font-display font-bold text-orange uppercase tracking-widest text-sm mb-2">
+              03 — <span data-i18n="rsn3_t"></span>
+            </p>
+            <h3 class="font-display font-black text-2xl uppercase text-navy leading-tight mb-4" data-i18n="rsn3_h"></h3>
+            <div class="copy-lead space-y-3 text-gray-600 font-medium text-lg leading-relaxed" data-i18n="rsn3_d"></div>
           </div>
         </div>
 
-        <div class="flex justify-center mt-16 reveal">
+        <div class="mt-14 flex flex-col items-center gap-6 text-center reveal">
+          <p
+            class="font-display font-black uppercase text-navy text-2xl md:text-3xl leading-tight"
+            data-i18n="hero_p3"
+          ></p>
           <a
             href="https://wa.me/5521964576591"
             data-wa="wa_m1"
@@ -914,10 +567,10 @@
       </div>
     </section>
 
-    <!-- 06 — SANDY SUMMER -->
+    <!-- 05 — SANDY SUMMER -->
     <section
       id="arcade"
-      class="bg-navy text-white rounded-t-[3rem] md:rounded-t-[6rem] -mt-20 md:-mt-32 relative z-50 pt-20 md:pt-28 pb-24 overlap-section shadow-[0_-10px_40px_rgba(0,0,0,0.4)] pb-[10rem] scroll-mt-20"
+      class="bg-navy text-white rounded-t-[3rem] md:rounded-t-[6rem] -mt-20 md:-mt-32 relative z-40 pt-20 md:pt-28 overlap-section shadow-[0_-10px_40px_rgba(0,0,0,0.4)] pb-[10rem] scroll-mt-20"
     >
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <a
@@ -966,22 +619,76 @@
       </div>
     </section>
 
+    <!-- 06 — DESDE 2006 -->
+    <section
+      id="history"
+      class="bg-sun text-navy rounded-t-[3rem] md:rounded-t-[6rem] -mt-20 md:-mt-32 relative z-50 pt-20 md:pt-28 overlap-section shadow-[0_-10px_40px_rgba(0,0,0,0.2)] pb-[10rem] scroll-mt-20"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-12">
+          <div class="w-full md:w-1/2 reveal">
+            <h2
+              class="font-display font-black text-4xl md:text-5xl text-navy uppercase leading-[1.1] mb-6"
+              data-i18n="hist_h"
+            ></h2>
+            <p class="text-xl font-bold mb-6" data-i18n="hist_p1"></p>
+            <p
+              class="font-display font-black uppercase text-2xl text-navy mb-8"
+              data-i18n="hist_highlight"
+            ></p>
+
+            <div class="bg-white p-6 rounded-3xl shadow-lg border-2 border-navy/10">
+              <p
+                class="font-display font-black text-orange uppercase tracking-widest text-sm mb-4"
+                data-i18n="hist_countries_t"
+              ></p>
+              <div
+                class="flex flex-wrap gap-2 font-display uppercase font-bold text-sm text-white"
+                data-i18n="hist_countries"
+              ></div>
+            </div>
+          </div>
+
+          <div class="w-full md:w-1/2 reveal reveal-delay-1 relative">
+            <div
+              class="absolute -top-6 -right-6 md:-top-10 md:-right-10 z-20 bg-orange text-white w-32 h-32 md:w-40 md:h-40 rounded-full flex flex-col items-center justify-center shadow-xl border-4 border-sun transform rotate-12"
+            >
+              <span class="font-display font-black text-4xl md:text-5xl leading-none">20+</span>
+              <span
+                class="font-display font-bold uppercase text-xs md:text-sm tracking-widest text-center mt-1"
+                data-i18n="hist_anos"
+              ></span>
+            </div>
+
+            <img
+              src="imagem-01.avif"
+              alt="História do RBR"
+              class="w-full h-auto object-cover rounded-3xl shadow-2xl border-8 border-white relative z-10"
+              onerror="
+                this.src =
+                  'https://placehold.co/600x400/0B1354/FFFFFF?text=RBR+History'
+              "
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- 07 — ISSO É O RIO BEACH RUGBY -->
     <section
       id="gallery"
-      class="bg-white rounded-t-[3rem] md:rounded-t-[6rem] -mt-20 md:-mt-32 relative z-[55] pt-20 md:pt-28 pb-24 overlap-section shadow-[0_-10px_40px_rgba(0,0,0,0.3)] pb-[10rem] scroll-mt-20"
+      class="bg-white rounded-t-[3rem] md:rounded-t-[6rem] -mt-20 md:-mt-32 relative z-[55] pt-20 md:pt-28 overlap-section shadow-[0_-10px_40px_rgba(0,0,0,0.3)] pb-[10rem] scroll-mt-20"
     >
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center max-w-3xl mx-auto mb-12 reveal">
+        <div class="text-center max-w-3xl mx-auto mb-10 reveal">
           <h2
-            class="font-display font-black text-4xl md:text-6xl text-navy uppercase mb-6"
+            class="font-display font-black text-4xl md:text-6xl text-navy uppercase mb-4"
             data-i18n="gal_h"
           ></h2>
           <p class="text-xl md:text-2xl font-bold text-gray-700" data-i18n="gal_p1"></p>
-          <p class="text-xl md:text-2xl font-bold text-gray-700" data-i18n="gal_p2"></p>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 reveal">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 reveal">
           <img src="imagem-02.avif" alt="" class="w-full h-48 md:h-72 object-cover rounded-2xl shadow-lg" />
           <img src="imagem-01.avif" alt="" class="w-full h-48 md:h-72 object-cover rounded-2xl shadow-lg" />
           <img src="imagem-03.avif" alt="" class="w-full h-48 md:h-72 object-cover rounded-2xl shadow-lg" />
@@ -989,10 +696,6 @@
         </div>
 
         <div class="text-center reveal">
-          <h3
-            class="font-display font-black text-3xl md:text-4xl text-orange uppercase mb-8"
-            data-i18n="gal_h2"
-          ></h3>
           <a
             href="https://www.instagram.com/riobeachrugby"
             target="_blank"
@@ -1013,14 +716,14 @@
         <!-- 08 — PRONTO PARA O RIO? -->
         <div
           id="cta"
-          class="bg-white text-navy rounded-[2.5rem] p-8 md:p-16 text-center shadow-2xl mb-12 reveal border-b-[12px] border-orange scroll-mt-28"
+          class="bg-white text-navy rounded-[2.5rem] p-8 md:p-16 text-center shadow-2xl mb-8 reveal border-b-[12px] border-orange scroll-mt-28"
         >
           <h2
-            class="font-display font-black text-4xl md:text-6xl uppercase mb-8"
+            class="font-display font-black text-4xl md:text-6xl uppercase mb-6"
             data-i18n="cta_h1"
           ></h2>
           <div
-            class="space-y-4 text-lg md:text-xl font-bold text-gray-600 mb-10 max-w-3xl mx-auto"
+            class="copy-lead text-lg md:text-xl font-bold text-gray-600 mb-10 max-w-2xl mx-auto"
             data-i18n="cta_p"
           ></div>
 
@@ -1048,29 +751,26 @@
         <!-- 09 — PARCEIROS -->
         <div
           id="partners"
-          class="bg-sun text-navy rounded-[2.5rem] p-8 md:p-16 text-center shadow-2xl mb-20 reveal scroll-mt-28"
+          class="bg-sun text-navy rounded-[2rem] p-8 md:px-12 md:py-10 shadow-2xl mb-20 reveal scroll-mt-28 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left"
         >
-          <h2
-            class="font-display font-black text-4xl md:text-5xl uppercase mb-6"
-            data-i18n="prt_h"
-          ></h2>
-          <p
-            class="text-lg md:text-xl font-bold max-w-3xl mx-auto mb-6"
-            data-i18n="prt_p"
-          ></p>
-          <h3
-            class="font-display font-black text-2xl md:text-3xl uppercase mb-8"
-            data-i18n="prt_h2"
-          ></h3>
+          <div>
+            <p
+              class="font-display font-black uppercase tracking-widest text-orange text-sm mb-2"
+              data-i18n="prt_h"
+            ></p>
+            <h2
+              class="font-display font-black text-2xl md:text-3xl uppercase leading-tight"
+              data-i18n="prt_h2"
+            ></h2>
+          </div>
           <a
             href="https://wa.me/5521964576591"
             data-wa="wa_m3"
             target="_blank"
-            class="inline-flex items-center justify-center gap-3 bg-navy text-white font-display font-black text-lg uppercase px-10 py-5 rounded-full hover:bg-orange transition-colors"
+            class="shrink-0 inline-flex items-center justify-center gap-3 bg-navy text-white font-display font-black uppercase px-8 py-4 rounded-full hover:bg-orange transition-colors"
           >
-            <i class="fas fa-handshake text-2xl"></i>
+            <i class="fas fa-handshake text-xl"></i>
             <span data-i18n="prt_cta"></span>
-            <i class="fas fa-arrow-right"></i>
           </a>
         </div>
 
@@ -1772,30 +1472,6 @@
         ) {
           toggleMenu();
         }
-      });
-
-      // 4b. Abas de "Por que trazer seu time?"
-      const rsnTabs = [...document.querySelectorAll(".rsn-tab")];
-
-      const selectRsnTab = (tab) => {
-        rsnTabs.forEach((t) => {
-          const selected = t === tab;
-          t.setAttribute("aria-selected", String(selected));
-          t.tabIndex = selected ? 0 : -1;
-          document.getElementById(t.getAttribute("aria-controls")).hidden = !selected;
-        });
-      };
-
-      rsnTabs.forEach((tab, i) => {
-        tab.addEventListener("click", () => selectRsnTab(tab));
-        tab.addEventListener("keydown", (e) => {
-          const step = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
-          if (!step) return;
-          e.preventDefault();
-          const next = rsnTabs[(i + step + rsnTabs.length) % rsnTabs.length];
-          selectRsnTab(next);
-          next.focus();
-        });
       });
 
       // 5. Scroll Reveal Animations (Intersection Observer)
