@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="regulations.js"></script>
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Inter,system-ui,sans-serif;background:#FFFDF7;color:#071746}
@@ -18,17 +19,23 @@ a{color:#0637B5;text-decoration:none}a:hover{color:#0d55d8}
 h1,h2,h3{margin:0}
 ::selection{background:#E49A2A;color:#071746}
 @keyframes rbrFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@media (min-width:860px){[data-reg-grid]{grid-template-columns:minmax(0,290px) minmax(0,1fr) !important}}
+@media print{
+ [data-print-hide]{display:none !important}
+ body{background:#fff}
+ [data-print-full]{max-width:none !important;padding:0 !important;display:block !important}
+}
 </style>
 </helmet>
 
 <div ref="{{ setRoot }}" style="overflow-x:clip">
 
-<header style="position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:11px clamp(14px,3.5vw,40px);background:#071746;box-shadow:0 4px 24px rgba(3,16,46,.35);border-bottom:1px solid rgba(255,253,247,.1)">
+<header data-print-hide="1" style="position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:11px clamp(14px,3.5vw,40px);background:#071746;box-shadow:0 4px 24px rgba(3,16,46,.35);border-bottom:1px solid rgba(255,253,247,.1)">
 <a href="index.html" style="display:flex;align-items:center;background:#FFFDF7;border-radius:10px;padding:5px 12px"><img src="assets/logo.png" alt="Rio Beach Rugby 2027" style="height:36px;display:block"></a>
 <nav style="display:flex;align-items:center;gap:clamp(12px,1.8vw,24px);flex-wrap:wrap">
 <a href="index.html#torneio" data-en="The Tournament" data-es="El Torneo" style="font:600 14.5px/1 Inter;color:#FFFDF7;white-space:nowrap">O Torneio</a>
 <a href="index.html#porque" data-en="Why Rio" data-es="Por qué Río" style="font:600 14.5px/1 Inter;color:#FFFDF7;white-space:nowrap">Por que Rio</a>
-<a href="rbr27-sandy-summer.dc.html" style="font:600 14.5px/1 Inter;color:#FFFDF7;white-space:nowrap">Sandy Summer</a>
+<a href="https://play.riobeachrugby.com" target="_blank" style="font:600 14.5px/1 Inter;color:#FFFDF7;white-space:nowrap">Sandy Summer</a>
 <a href="#top" data-en="Regulations" data-es="Reglamento" style="font:700 14.5px/1 Inter;color:#E49A2A;white-space:nowrap">Regulamento</a>
 <a href="index.html#parceiros" data-en="Partners" data-es="Aliados" style="font:600 14.5px/1 Inter;color:#FFFDF7;white-space:nowrap">Parceiros</a>
 </nav>
@@ -42,108 +49,48 @@ h1,h2,h3{margin:0}
 </div>
 </header>
 
-<section id="top" style="background:#071746;color:#FFFDF7;padding:clamp(40px,6vw,72px) 0">
+<section id="top" style="background:#071746;color:#FFFDF7;padding:clamp(36px,5vw,64px) 0">
 <div style="max-width:1180px;margin:0 auto;padding:0 clamp(16px,4vw,40px)">
-<a href="index.html" data-en="← Back to the main site" data-es="← Volver al sitio principal" style="display:inline-block;font:700 13px/1 Inter;color:rgba(255,253,247,.6);margin-bottom:22px">← Voltar ao site</a>
-<div data-en="Rules &amp; Regulations · RBR 2027" data-es="Reglamento · RBR 2027" style="font:800 14px/1 'Barlow Condensed';letter-spacing:.24em;text-transform:uppercase;color:#E49A2A;margin-bottom:14px">Regulamento · RBR 2027</div>
-<h1 data-en="Everything your team needs to know before stepping on the sand." data-es="Todo lo que tu equipo necesita saber antes de pisar la arena." style="font:900 clamp(34px,6vw,70px)/.92 'Barlow Condensed';text-transform:uppercase;max-width:20ch;margin-bottom:22px">Tudo o que seu time precisa saber antes de pisar na areia.</h1>
+<a data-print-hide="1" href="index.html" data-en="← Back to the main site" data-es="← Volver al sitio principal" style="display:inline-block;font:700 13px/1 Inter;color:rgba(255,253,247,.6);margin-bottom:20px">← Voltar ao site</a>
+<div data-en="Official Regulations · RBR 2027" data-es="Reglamento Oficial · RBR 2027" style="font:800 14px/1 'Barlow Condensed';letter-spacing:.24em;text-transform:uppercase;color:#E49A2A;margin-bottom:14px">Regulamento Oficial · RBR 2027</div>
+<h1 data-en="Official Regulations — Rio Beach Rugby 2027" data-es="Reglamento Oficial — Rio Beach Rugby 2027" style="font:900 clamp(32px,5.4vw,62px)/.94 'Barlow Condensed';text-transform:uppercase;max-width:22ch;margin-bottom:20px">Regulamento Oficial — Rio Beach Rugby 2027</h1>
+<p data-en="Organiser: Rio Rugby Football Club · CNPJ 11.997.961/0001-39 · 23 and 24 January 2027 · Rio de Janeiro/RJ" data-es="Organización: Rio Rugby Football Club · CNPJ 11.997.961/0001-39 · 23 y 24 de enero de 2027 · Río de Janeiro/RJ" style="font:400 clamp(14px,1.7vw,17px)/1.6 Inter;color:rgba(255,253,247,.78);max-width:62ch;margin:0 0 26px">Organização: Rio Rugby Football Club · CNPJ 11.997.961/0001-39 · 23 e 24 de janeiro de 2027 · Rio de Janeiro/RJ</p>
 <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center">
-<a href="#" data-en="Download the PDF" data-es="Descargar el PDF" style="font:800 15px/1 'Barlow Condensed';letter-spacing:.05em;text-transform:uppercase;background:#D66B0B;color:#FFFDF7;padding:14px 20px;border-radius:8px;box-shadow:0 8px 22px rgba(214,107,11,.4)">Baixar em PDF</a>
-<span data-en="Last updated: [ date ] · Version 1.0 · EN · PT · ES" data-es="Última actualización: [ fecha ] · Versión 1.0 · EN · PT · ES" style="font:400 14px/1.4 Inter;color:rgba(255,253,247,.7)">Última atualização: [ data ] · Versão 1.0 · EN · PT · ES</span>
+<button data-print-hide="1" onClick="{{ doPrint }}" data-en="Download the PDF ↓" data-es="Descargar el PDF ↓" style="cursor:pointer;border:none;font:800 15px/1 'Barlow Condensed';letter-spacing:.05em;text-transform:uppercase;background:#D66B0B;color:#FFFDF7;padding:15px 22px;border-radius:8px;box-shadow:0 8px 22px rgba(214,107,11,.4)">Baixar em PDF ↓</button>
+<span data-en="14 chapters · 4 annexes · Version of 1 October 2026 · PT · EN · ES" data-es="14 capítulos · 4 anexos · Versión del 1 de octubre de 2026 · PT · EN · ES" style="font:400 14px/1.5 Inter;color:rgba(255,253,247,.7)">14 capítulos · 4 anexos · Versão de 01 de outubro de 2026 · PT · EN · ES</span>
 </div>
 </div>
 </section>
 
-<section style="background:#FFFDF7;padding:clamp(40px,6vw,72px) 0">
-<div style="max-width:1180px;margin:0 auto;padding:0 clamp(16px,4vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:clamp(28px,4vw,56px);align-items:start">
+<section style="background:#FFFDF7;padding:clamp(32px,5vw,60px) 0 clamp(48px,7vw,84px)">
+<div data-print-full="1" style="max-width:1180px;margin:0 auto;padding:0 clamp(16px,4vw,40px);display:grid;grid-template-columns:1fr;gap:clamp(24px,3.5vw,48px);align-items:start" data-reg-grid="1">
 
-<aside style="position:sticky;top:90px;max-width:300px">
-<div data-en="On this page" data-es="En esta página" style="font:800 13px/1 'Barlow Condensed';letter-spacing:.16em;text-transform:uppercase;color:rgba(7,23,70,.5);margin-bottom:16px">Nesta página</div>
-<nav style="display:flex;flex-direction:column;gap:2px;margin-bottom:26px">
-<a href="#s1" data-en="01 · Format and categories" data-es="01 · Formato y categorías" style="font:600 14.5px/1.3 Inter;color:#071746;padding:9px 12px;border-radius:8px;border-left:3px solid #E49A2A" style-hover="background:#F4E5CB">01 · Formato e categorias</a>
-<a href="#s2" data-en="02 · Laws of the game" data-es="02 · Reglas de juego" style="font:600 14.5px/1.3 Inter;color:#071746;padding:9px 12px;border-radius:8px;border-left:3px solid rgba(7,23,70,.12)" style-hover="background:#F4E5CB">02 · Regras de jogo</a>
-<a href="#s3" data-en="03 · Eligibility and entries" data-es="03 · Elegibilidad e inscripciones" style="font:600 14.5px/1.3 Inter;color:#071746;padding:9px 12px;border-radius:8px;border-left:3px solid rgba(7,23,70,.12)" style-hover="background:#F4E5CB">03 · Elegibilidade e inscrições</a>
-<a href="#s4" data-en="04 · Conduct and safety" data-es="04 · Conducta y seguridad" style="font:600 14.5px/1.3 Inter;color:#071746;padding:9px 12px;border-radius:8px;border-left:3px solid rgba(7,23,70,.12)" style-hover="background:#F4E5CB">04 · Conduta e segurança</a>
-<a href="#s5" data-en="05 · Discipline and appeals" data-es="05 · Disciplina y reclamos" style="font:600 14.5px/1.3 Inter;color:#071746;padding:9px 12px;border-radius:8px;border-left:3px solid rgba(7,23,70,.12)" style-hover="background:#F4E5CB">05 · Disciplina e recursos</a>
-<a href="#s6" data-en="06 · Questions" data-es="06 · Dudas" style="font:600 14.5px/1.3 Inter;color:#071746;padding:9px 12px;border-radius:8px;border-left:3px solid rgba(7,23,70,.12)" style-hover="background:#F4E5CB">06 · Dúvidas</a>
-</nav>
-<div style="background:#F4E5CB;border-radius:12px;padding:20px">
-<div data-en="Download" data-es="Descargar" style="font:800 12px/1 'Barlow Condensed';letter-spacing:.14em;text-transform:uppercase;color:#D66B0B;margin-bottom:10px">Download</div>
-<p data-en="A PDF of the full regulations for captains and managers to share with the squad." data-es="Un PDF del reglamento completo para que capitanes y managers lo compartan con el equipo." style="font:400 13.5px/1.5 Inter;color:#3a4a6b;margin:0 0 14px">PDF do regulamento completo, para capitães e managers compartilharem com o time.</p>
-<a href="#" data-en="Download PDF ↓" data-es="Descargar PDF ↓" style="display:inline-block;font:800 15px/1 'Barlow Condensed';letter-spacing:.05em;text-transform:uppercase;color:#FFFDF7;background:#071746;padding:14px 20px;border-radius:8px">Baixar PDF ↓</a>
+<aside data-print-hide="1" style="position:sticky;top:88px;min-width:0">
+<div data-en="On this page" data-es="En esta página" style="font:800 13px/1 'Barlow Condensed';letter-spacing:.16em;text-transform:uppercase;color:rgba(7,23,70,.5);margin-bottom:12px">Nesta página</div>
+<input type="search" value="{{ query }}" onInput="{{ onSearch }}" placeholder="{{ searchPlaceholder }}" style="width:100%;font:500 14px/1.3 Inter;color:#071746;background:#fff;border:1.5px solid rgba(7,23,70,.18);border-radius:9px;padding:12px 14px;margin-bottom:14px">
+<div style="display:flex;gap:8px;margin-bottom:14px">
+<button onClick="{{ expandAll }}" data-en="Expand all" data-es="Abrir todo" style="flex:1;cursor:pointer;font:700 12px/1 Inter;color:#071746;background:#F4E5CB;border:none;padding:11px 8px;border-radius:8px">Abrir tudo</button>
+<button onClick="{{ collapseAll }}" data-en="Collapse all" data-es="Cerrar todo" style="flex:1;cursor:pointer;font:700 12px/1 Inter;color:#071746;background:#F4E5CB;border:none;padding:11px 8px;border-radius:8px">Fechar tudo</button>
 </div>
+<nav style="display:flex;flex-direction:column;gap:2px;max-height:52vh;overflow-y:auto;overflow-x:hidden">{{ tocNav }}</nav>
 </aside>
 
-<div style="display:flex;flex-direction:column;gap:clamp(36px,5vw,56px);min-width:0">
+<div style="display:flex;flex-direction:column;gap:14px;min-width:0">{{ body }}</div>
+</div>
+</section>
 
-<div id="s1" style="scroll-margin-top:90px">
-<div style="display:flex;align-items:baseline;gap:12px;margin-bottom:14px"><span style="font:900 clamp(26px,3.4vw,40px)/1 'Barlow Condensed';color:#E49A2A">01</span><h2 data-en="Format and categories" data-es="Formato y categorías" style="font:900 clamp(24px,3.2vw,38px)/1 'Barlow Condensed';text-transform:uppercase;color:#071746">Formato e categorias</h2></div>
-<div style="display:flex;flex-direction:column;gap:12px">
-<div style="display:flex;gap:14px;padding:16px 18px;background:#F4E5CB;border-radius:10px"><span style="font:800 14px/1.4 Inter;color:#D66B0B;min-width:30px">1.1</span><span data-en="Rio Beach Rugby 2027 is played on 23 and 24 January 2027 in Rio de Janeiro, Brazil." data-es="Rio Beach Rugby 2027 se juega el 23 y 24 de enero de 2027 en Río de Janeiro, Brasil." style="font:400 15px/1.55 Inter;color:#071746">O Rio Beach Rugby 2027 acontece nos dias 23 e 24 de janeiro de 2027, no Rio de Janeiro.</span></div>
-<div style="display:flex;gap:14px;padding:16px 18px;background:#F4E5CB;border-radius:10px"><span style="font:800 14px/1.4 Inter;color:#D66B0B;min-width:30px">1.2</span><span data-en="There are two separate competitions: Men&#39;s and Women&#39;s. Both are played on the same beach, across the same weekend." data-es="Hay dos competencias separadas: Masculina y Femenina. Ambas se juegan en la misma playa y el mismo fin de semana." style="font:400 15px/1.55 Inter;color:#071746">Há duas competições separadas: Masculina e Feminina. As duas acontecem na mesma praia, no mesmo fim de semana.</span></div>
-<div style="display:flex;gap:14px;padding:16px 18px;background:#F4E5CB;border-radius:10px"><span style="font:800 14px/1.4 Inter;color:#D66B0B;min-width:30px">1.3</span><span data-en="The competition is Beach Fives: five players per side on the sand." data-es="La competencia es Beach Fives: cinco jugadores por lado en la arena." style="font:400 15px/1.55 Inter;color:#071746">A competição é disputada em Beach Fives: cinco jogadores de cada lado na areia.</span></div>
-<div style="display:flex;gap:14px;padding:16px 18px;background:#fff;border:1px dashed rgba(7,23,70,.25);border-radius:10px"><span style="font:800 14px/1.4 Inter;color:rgba(7,23,70,.45);min-width:30px">1.4</span><span style="font:400 15px/1.55 Inter;color:#3a4a6b"><b data-en="[ FINAL TEXT TO INSERT ]" data-es="[ TEXTO FINAL A INSERTAR ]" style="font:600 11px/1.3 ui-monospace,Menlo,monospace;color:#A8500A;display:block;margin-bottom:6px">[ TEXTO FINAL A INSERIR ]</b><span data-en="Number of groups, pool structure, knockout stages, match duration and number of games per team. Confirmed once entries close." data-es="Cantidad de grupos, estructura de zonas, llaves finales, duración de los partidos y número de partidos por equipo. Se confirma al cerrar las inscripciones.">Número de grupos, estrutura de chaves, fases finais, duração das partidas e número de jogos por time. Definido após o encerramento das inscrições.</span></span></div>
-<div style="display:flex;gap:14px;padding:16px 18px;background:#fff;border:1px dashed rgba(7,23,70,.25);border-radius:10px"><span style="font:800 14px/1.4 Inter;color:rgba(7,23,70,.45);min-width:30px">1.5</span><span style="font:400 15px/1.55 Inter;color:#3a4a6b"><b data-en="[ FINAL TEXT TO INSERT ]" data-es="[ TEXTO FINAL A INSERTAR ]" style="font:600 11px/1.3 ui-monospace,Menlo,monospace;color:#A8500A;display:block;margin-bottom:6px">[ TEXTO FINAL A INSERIR ]</b><span data-en="Tie-breaking criteria, scoring system and ranking rules." data-es="Criterios de desempate, sistema de puntuación y reglas de clasificación.">Critérios de desempate, sistema de pontuação e regras de classificação.</span></span></div>
-</div>
-</div>
-
-<div id="s2" style="scroll-margin-top:90px">
-<div style="display:flex;align-items:baseline;gap:12px;margin-bottom:14px"><span style="font:900 clamp(26px,3.4vw,40px)/1 'Barlow Condensed';color:#E49A2A">02</span><h2 data-en="Laws of the game" data-es="Reglas de juego" style="font:900 clamp(24px,3.2vw,38px)/1 'Barlow Condensed';text-transform:uppercase;color:#071746">Regras de jogo</h2></div>
-<p data-en="Beach Fives keeps the ball alive. The core laws below are confirmed for 2027." data-es="El Beach Fives mantiene la pelota viva. Las reglas principales están confirmadas para 2027." style="font:400 15px/1.6 Inter;color:#3a4a6b;margin:0 0 18px">O Beach Fives mantém a bola viva. As regras principais abaixo estão confirmadas para 2027.</p>
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-bottom:16px">
-<div style="background:#071746;border-radius:12px;padding:20px"><div data-en="5 A SIDE" data-es="5 por lado" style="font:900 22px/1 'Barlow Condensed';text-transform:uppercase;color:#fff;margin-bottom:7px">5 de cada lado</div><div data-en="More space. More running." data-es="Más espacio para correr." style="font:400 14px/1.45 Inter;color:rgba(255,253,247,.72)">Mais espaço para correr.</div></div>
-<div style="background:#071746;border-radius:12px;padding:20px"><div data-en="NO RUCKS, NO MAULS" data-es="Sin ruck, sin maul" style="font:900 22px/1 'Barlow Condensed';text-transform:uppercase;color:#fff;margin-bottom:7px">Sem ruck, sem maul</div><div data-en="Keep the ball alive and moving." data-es="Pelota viva y juego fluido." style="font:400 14px/1.45 Inter;color:rgba(255,253,247,.72)">Bola viva e jogo fluido.</div></div>
-<div style="background:#071746;border-radius:12px;padding:20px"><div data-en="NO KICKING" data-es="Sin patadas" style="font:900 22px/1 'Barlow Condensed';text-transform:uppercase;color:#fff;margin-bottom:7px">Sem chute aberto</div><div data-en="No kicking in open play. Ball in hand." data-es="Sin patadas en juego abierto. La pelota en la mano." style="font:400 14px/1.45 Inter;color:rgba(255,253,247,.72)">Sem chute em jogo aberto. Bola na mão.</div></div>
-<div style="background:#071746;border-radius:12px;padding:20px"><div data-en="NO SET PIECE" data-es="Sin scrum, sin lineout" style="font:900 22px/1 'Barlow Condensed';text-transform:uppercase;color:#fff;margin-bottom:7px">Sem scrum, sem lineout</div><div data-en="No traditional set-piece formations." data-es="Sin formaciones fijas tradicionales." style="font:400 14px/1.45 Inter;color:rgba(255,253,247,.72)">Sem formações fixas tradicionais.</div></div>
-<div style="background:#071746;border-radius:12px;padding:20px"><div data-en="UNLIMITED SUBS" data-es="Cambios ilimitados" style="font:900 22px/1 'Barlow Condensed';text-transform:uppercase;color:#fff;margin-bottom:7px">Substituições livres</div><div data-en="Fresh legs — and the whole squad gets to play." data-es="Piernas frescas y oportunidades para todo el plantel." style="font:400 14px/1.45 Inter;color:rgba(255,253,247,.72)">Pernas novas — e todo o time entra em jogo.</div></div>
-<div style="background:#D66B0B;border-radius:12px;padding:20px"><div data-en="BAREFOOT RUGBY" data-es="Rugby descalzo" style="font:900 22px/1 'Barlow Condensed';text-transform:uppercase;color:#fff;margin-bottom:7px">Jogo na areia</div><div data-en="Played barefoot on sand — no boots or studs." data-es="Se juega descalzo en la arena — sin botines ni tapones." style="font:400 14px/1.45 Inter;color:rgba(255,255,255,.88)">Jogado descalço na areia — sem chuteiras ou travas.</div></div>
-</div>
-<div style="display:flex;gap:14px;padding:16px 18px;background:#fff;border:1px dashed rgba(7,23,70,.25);border-radius:10px"><span style="font:800 14px/1.4 Inter;color:rgba(7,23,70,.45);min-width:30px">2.7</span><span style="font:400 15px/1.55 Inter;color:#3a4a6b"><b data-en="[ FINAL TEXT TO INSERT ]" data-es="[ TEXTO FINAL A INSERTAR ]" style="font:600 11px/1.3 ui-monospace,Menlo,monospace;color:#A8500A;display:block;margin-bottom:6px">[ TEXTO FINAL A INSERIR ]</b><span data-en="Pitch dimensions, restart procedures, tackle and contact rules, try value, advantage and full referee guidance." data-es="Dimensiones de la cancha, reinicios, reglas de tackle y contacto, valor del try, ventaja y guía completa de arbitraje.">Dimensões do campo, reinícios, regras de tackle e contato, valor do try, vantagem e orientações completas de arbitragem.</span></span></div>
-</div>
-
-<div id="s3" style="scroll-margin-top:90px">
-<div style="display:flex;align-items:baseline;gap:12px;margin-bottom:14px"><span style="font:900 clamp(26px,3.4vw,40px)/1 'Barlow Condensed';color:#E49A2A">03</span><h2 data-en="Eligibility and entries" data-es="Elegibilidad e inscripciones" style="font:900 clamp(24px,3.2vw,38px)/1 'Barlow Condensed';text-transform:uppercase;color:#071746">Elegibilidade e inscrições</h2></div>
-<div style="display:flex;flex-direction:column;gap:12px">
-<div style="display:flex;gap:14px;padding:16px 18px;background:#F4E5CB;border-radius:10px"><span style="font:800 14px/1.4 Inter;color:#D66B0B;min-width:30px">3.1</span><span data-en="Open to Men&#39;s and Women&#39;s teams of all levels, from Brazil and abroad. Club, university, social and mixed-nationality teams are all welcome." data-es="Abierto a equipos masculinos y femeninos de todos los niveles, de Brasil y del exterior. Clubes, universidades, equipos sociales y de nacionalidades mixtas son bienvenidos." style="font:400 15px/1.55 Inter;color:#071746">Aberto a equipes masculinas e femininas de todos os níveis, do Brasil e do exterior. Times de clube, universitários, sociais e de nacionalidades mistas são bem-vindos.</span></div>
-<div style="display:flex;gap:14px;padding:16px 18px;background:#F4E5CB;border-radius:10px"><span style="font:800 14px/1.4 Inter;color:#D66B0B;min-width:30px">3.2</span><span data-en="All players must be 18 or over on the first day of the tournament." data-es="Todos los jugadores deben tener 18 años o más el primer día del torneo." style="font:400 15px/1.55 Inter;color:#071746">Todos os jogadores devem ter 18 anos ou mais no primeiro dia do torneio.</span></div>
-<div style="display:flex;gap:14px;padding:16px 18px;background:#F4E5CB;border-radius:10px"><span style="font:800 14px/1.4 Inter;color:#D66B0B;min-width:30px">3.3</span><span data-en="Entries are handled directly with the organisers on WhatsApp — there is no online registration form. Your place is confirmed once the entry is agreed with the organising team." data-es="Las inscripciones se gestionan directamente con la organización por WhatsApp — no hay formulario en línea. El lugar se confirma cuando la inscripción se acuerda con la organización." style="font:400 15px/1.55 Inter;color:#071746">As inscrições são feitas diretamente com a organização pelo WhatsApp — não há formulário online. A vaga é confirmada quando a inscrição é acertada com a organização.</span></div>
-<div style="display:flex;gap:14px;padding:16px 18px;background:#fff;border:1px dashed rgba(7,23,70,.25);border-radius:10px"><span style="font:800 14px/1.4 Inter;color:rgba(7,23,70,.45);min-width:30px">3.4</span><span style="font:400 15px/1.55 Inter;color:#3a4a6b"><b data-en="[ FINAL TEXT TO INSERT ]" data-es="[ TEXTO FINAL A INSERTAR ]" style="font:600 11px/1.3 ui-monospace,Menlo,monospace;color:#A8500A;display:block;margin-bottom:6px">[ TEXTO FINAL A INSERIR ]</b><span data-en="Entry fee, squad size limits, entry deadlines, payment terms and cancellation policy." data-es="Costo de inscripción, cantidad máxima de jugadores, plazos, condiciones de pago y política de cancelación.">Valor da inscrição, limite de atletas por equipe, prazos, condições de pagamento e política de cancelamento.</span></span></div>
-</div>
-</div>
-
-<div id="s4" style="scroll-margin-top:90px">
-<div style="display:flex;align-items:baseline;gap:12px;margin-bottom:14px"><span style="font:900 clamp(26px,3.4vw,40px)/1 'Barlow Condensed';color:#E49A2A">04</span><h2 data-en="Conduct and safety" data-es="Conducta y seguridad" style="font:900 clamp(24px,3.2vw,38px)/1 'Barlow Condensed';text-transform:uppercase;color:#071746">Conduta e segurança</h2></div>
-<div style="display:flex;flex-direction:column;gap:12px">
-<div style="display:flex;gap:14px;padding:16px 18px;background:#F4E5CB;border-radius:10px"><span style="font:800 14px/1.4 Inter;color:#D66B0B;min-width:30px">4.1</span><span data-en="Rugby values apply on and off the sand: respect for opponents, referees, volunteers, the public and the beach itself." data-es="Los valores del rugby aplican dentro y fuera de la arena: respeto por rivales, árbitros, voluntarios, el público y la playa." style="font:400 15px/1.55 Inter;color:#071746">Os valores do rugby valem dentro e fora da areia: respeito aos adversários, à arbitragem, aos voluntários, ao público e à praia.</span></div>
-<div style="display:flex;gap:14px;padding:16px 18px;background:#F4E5CB;border-radius:10px"><span style="font:800 14px/1.4 Inter;color:#D66B0B;min-width:30px">4.2</span><span data-en="Every player takes part at their own risk and is responsible for being in condition to play. Medical support is on site throughout the event." data-es="Cada jugador participa bajo su propia responsabilidad y debe estar en condiciones de jugar. Habrá asistencia médica en el lugar durante todo el evento." style="font:400 15px/1.55 Inter;color:#071746">Cada atleta participa por sua conta e risco e é responsável por estar em condições de jogar. Haverá atendimento médico no local durante todo o evento.</span></div>
-<div style="display:flex;gap:14px;padding:16px 18px;background:#F4E5CB;border-radius:10px"><span style="font:800 14px/1.4 Inter;color:#D66B0B;min-width:30px">4.3</span><span data-en="The event is photographed and filmed. By taking part, teams agree to the use of that material by Rio Beach Rugby and its partners." data-es="El evento es fotografiado y filmado. Al participar, los equipos aceptan el uso de ese material por Rio Beach Rugby y sus aliados." style="font:400 15px/1.55 Inter;color:#071746">O evento é fotografado e filmado. Ao participar, as equipes concordam com o uso desse material pelo Rio Beach Rugby e seus parceiros.</span></div>
-<div style="display:flex;gap:14px;padding:16px 18px;background:#F4E5CB;border-radius:10px"><span style="font:800 14px/1.4 Inter;color:#D66B0B;min-width:30px">4.4</span><span data-en="Glass, littering and any behaviour that damages the beach or disturbs the public are not permitted." data-es="No se permite vidrio, tirar basura ni ninguna conducta que dañe la playa o moleste al público." style="font:400 15px/1.55 Inter;color:#071746">Não é permitido vidro, descarte de lixo fora dos pontos de coleta ou qualquer conduta que danifique a praia ou incomode o público.</span></div>
-</div>
-</div>
-
-<div id="s5" style="scroll-margin-top:90px">
-<div style="display:flex;align-items:baseline;gap:12px;margin-bottom:14px"><span style="font:900 clamp(26px,3.4vw,40px)/1 'Barlow Condensed';color:#E49A2A">05</span><h2 data-en="Discipline and appeals" data-es="Disciplina y reclamos" style="font:900 clamp(24px,3.2vw,38px)/1 'Barlow Condensed';text-transform:uppercase;color:#071746">Disciplina e recursos</h2></div>
-<div style="display:flex;flex-direction:column;gap:12px">
-<div style="display:flex;gap:14px;padding:16px 18px;background:#F4E5CB;border-radius:10px"><span style="font:800 14px/1.4 Inter;color:#D66B0B;min-width:30px">5.1</span><span data-en="Referee decisions during a match are final." data-es="Las decisiones del árbitro durante el partido son finales." style="font:400 15px/1.55 Inter;color:#071746">As decisões da arbitragem durante a partida são finais.</span></div>
-<div style="display:flex;gap:14px;padding:16px 18px;background:#F4E5CB;border-radius:10px"><span style="font:800 14px/1.4 Inter;color:#D66B0B;min-width:30px">5.2</span><span data-en="Serious foul play or abuse of officials may result in a player or team being removed from the tournament." data-es="El juego brusco grave o el maltrato a los oficiales puede implicar la exclusión del jugador o del equipo del torneo." style="font:400 15px/1.55 Inter;color:#071746">Jogo violento grave ou desrespeito à arbitragem pode resultar na exclusão do atleta ou da equipe do torneio.</span></div>
-<div style="display:flex;gap:14px;padding:16px 18px;background:#fff;border:1px dashed rgba(7,23,70,.25);border-radius:10px"><span style="font:800 14px/1.4 Inter;color:rgba(7,23,70,.45);min-width:30px">5.3</span><span style="font:400 15px/1.55 Inter;color:#3a4a6b"><b data-en="[ FINAL TEXT TO INSERT ]" data-es="[ TEXTO FINAL A INSERTAR ]" style="font:600 11px/1.3 ui-monospace,Menlo,monospace;color:#A8500A;display:block;margin-bottom:6px">[ TEXTO FINAL A INSERIR ]</b><span data-en="Formal complaint procedure, deadlines and the composition of the disciplinary panel." data-es="Procedimiento formal de reclamos, plazos y composición del tribunal de disciplina.">Procedimento formal de reclamação, prazos e composição da comissão disciplinar.</span></span></div>
-</div>
-</div>
-
-<div id="s6" style="scroll-margin-top:90px;background:#071746;border-radius:16px;padding:clamp(28px,4vw,44px)">
-<div style="display:flex;align-items:baseline;gap:12px;margin-bottom:14px"><span style="font:900 clamp(26px,3.4vw,40px)/1 'Barlow Condensed';color:#E49A2A">06</span><h2 data-en="Still have questions?" data-es="¿Te quedan dudas?" style="font:900 clamp(24px,3.2vw,38px)/1 'Barlow Condensed';text-transform:uppercase;color:#fff">Ficou com dúvida?</h2></div>
-<p data-en="Captains and managers can talk to the organisers directly. We&#39;ll walk you through format, entries and everything you need to plan the trip." data-es="Capitanes y managers pueden hablar directamente con la organización. Te explicamos formato, inscripciones y todo lo necesario para planear el viaje." style="font:400 clamp(15px,1.7vw,17px)/1.6 Inter;color:rgba(255,253,247,.8);margin:0 0 24px;max-width:56ch">Capitães e managers podem falar direto com a organização. A gente explica formato, inscrição e tudo o que você precisa para planejar a viagem.</p>
-<div style="display:flex;flex-wrap:wrap;gap:14px">
+<section data-print-hide="1" style="background:#071746;color:#fff;padding:clamp(44px,6vw,76px) 0;text-align:center">
+<div style="max-width:860px;margin:0 auto;padding:0 clamp(16px,4vw,40px)">
+<h2 data-en="Still have questions?" data-es="¿Te quedan dudas?" style="font:900 clamp(26px,4vw,46px)/.98 'Barlow Condensed';text-transform:uppercase;margin-bottom:16px">Ficou com dúvida?</h2>
+<p data-en="Captains and managers can talk to the organisers directly. We&#39;ll walk you through format, entries and everything you need to plan the trip." data-es="Capitanes y managers pueden hablar directamente con la organización. Te explicamos formato, inscripciones y todo lo necesario para planear el viaje." style="font:400 clamp(15px,1.7vw,17px)/1.6 Inter;color:rgba(255,253,247,.8);margin:0 auto 26px;max-width:56ch">Capitães e managers podem falar direto com a organização. A gente explica formato, inscrição e tudo o que você precisa para planejar a viagem.</p>
+<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:14px">
 <a data-wa="info" href="https://wa.me/5521964576591" target="_blank" data-en="Ask us on WhatsApp →" data-es="Escríbenos por WhatsApp →" style="font:800 clamp(15px,1.8vw,18px)/1 'Barlow Condensed';letter-spacing:.04em;text-transform:uppercase;color:#FFFDF7;background:#D66B0B;padding:17px 28px;border-radius:9px">Tirar dúvida no WhatsApp →</a>
 <a data-wa="team" href="https://wa.me/5521964576591" target="_blank" data-en="Bring your team to Rio →" data-es="Trae a tu equipo a Río →" style="font:800 clamp(15px,1.8vw,18px)/1 'Barlow Condensed';letter-spacing:.04em;text-transform:uppercase;color:#fff;background:transparent;border:2px solid rgba(255,253,247,.45);padding:17px 26px;border-radius:9px">Traga seu time para o Rio →</a>
 </div>
 </div>
-
-</div>
-</div>
 </section>
 
-<footer style="background:#03102e;color:#fff;padding:clamp(40px,5vw,60px) 0 28px">
+<footer data-print-hide="1" style="background:#03102e;color:#fff;padding:clamp(40px,5vw,60px) 0 28px">
 <div style="max-width:1180px;margin:0 auto;padding:0 clamp(16px,4vw,40px);display:flex;flex-wrap:wrap;justify-content:space-between;gap:26px;align-items:center">
 <div style="display:flex;align-items:center;gap:16px">
 <div style="display:inline-flex;background:#FFFDF7;border-radius:10px;padding:8px 13px"><img src="assets/logo.png" alt="Rio Beach Rugby 2027" style="height:42px;display:block"></div>
@@ -154,7 +101,7 @@ h1,h2,h3{margin:0}
 </div>
 <div style="display:flex;flex-wrap:wrap;gap:20px">
 <a href="index.html" data-en="Main site" data-es="Sitio principal" style="font:500 14px/1 Inter;color:#fff">Site principal</a>
-<a href="rbr27-sandy-summer.dc.html" style="font:500 14px/1 Inter;color:#ffd84d">Sandy Summer</a>
+<a href="https://play.riobeachrugby.com" target="_blank" style="font:500 14px/1 Inter;color:#ffd84d">Sandy Summer</a>
 <a href="https://instagram.com/riobeachrugby" target="_blank" style="font:500 14px/1 Inter;color:#fff">Instagram</a>
 <a data-wa="info" href="https://wa.me/5521964576591" target="_blank" style="font:600 14px/1 Inter;color:#25D366">WhatsApp</a>
 </div>
@@ -164,7 +111,7 @@ h1,h2,h3{margin:0}
 </div>
 </footer>
 
-<div style="position:fixed;right:clamp(14px,2vw,24px);bottom:clamp(14px,2vw,24px);z-index:80">
+<div data-print-hide="1" style="position:fixed;right:clamp(14px,2vw,24px);bottom:clamp(14px,2vw,24px);z-index:80">
 <a data-wa="info" href="https://wa.me/5521964576591" target="_blank" data-en="Chat with us" data-es="Hablemos" style="display:inline-flex;align-items:center;gap:10px;background:#25D366;color:#fff;padding:14px 20px;border-radius:100px;box-shadow:0 10px 30px rgba(37,211,102,.45);font:800 15px/1 'Barlow Condensed';letter-spacing:.05em;text-transform:uppercase;animation:rbrFloat 3.5s ease-in-out infinite">
 <span style="width:22px;height:22px;background:#fff;border-radius:50% 50% 50% 4px;display:inline-block;flex:0 0 auto"></span>Fale com a gente
 </a>
@@ -181,18 +128,43 @@ const WA_MSG = {
     es: '¡Hola! Me interesaría llevar a mi equipo a Rio Beach Rugby 2027 y quisiera recibir más información.'
   },
   info: {
-    pt: 'Oi! Queria saber mais sobre o regulamento do Rio Beach Rugby 2027.',
-    en: "Hi! I'd like to know more about the Rio Beach Rugby 2027 regulations.",
-    es: '¡Hola! Quisiera saber más sobre el reglamento de Rio Beach Rugby 2027.'
+    pt: 'Oi! Queria tirar uma dúvida sobre o regulamento do Rio Beach Rugby 2027.',
+    en: "Hi! I have a question about the Rio Beach Rugby 2027 regulations.",
+    es: '¡Hola! Tengo una duda sobre el reglamento de Rio Beach Rugby 2027.'
   }
 };
+const UI = {
+  search: { pt: 'Buscar no regulamento…', en: 'Search the regulations…', es: 'Buscar en el reglamento…' },
+  noResults: { pt: 'Nenhum artigo encontrado.', en: 'No articles found.', es: 'No se encontraron artículos.' },
+  matches: { pt: 'resultado(s)', en: 'result(s)', es: 'resultado(s)' },
+  annex: { pt: 'Anexo', en: 'Annex', es: 'Anexo' },
+  chapter: { pt: 'Capítulo', en: 'Chapter', es: 'Capítulo' }
+};
+const h = (t, p, ...c) => React.createElement(t, p, ...c);
+const norm = s => (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
 class Component extends DCLogic {
-  lang = 'pt';
-  setRoot = (el) => { this.rootEl = el; if (el) this.apply(); };
-  apply = () => {
+  state = { lang: 'pt', open: {}, query: '', ready: false };
+
+  componentDidMount() {
+    this.waitForData();
+    this.applyChrome();
+  }
+  componentDidUpdate() { this.applyChrome(); }
+
+  waitForData = (tries = 0) => {
+    if (window.RBR_REGS) {
+      const open = {};
+      window.RBR_REGS.pt.forEach((s, i) => { open[s.id] = s.kind === 'chapter'; });
+      this.setState({ ready: true, open });
+    } else if (tries < 80) {
+      setTimeout(() => this.waitForData(tries + 1), 60);
+    }
+  };
+
+  applyChrome = () => {
     if (!this.rootEl) return;
-    const l = this.lang;
+    const l = this.state.lang;
     this.rootEl.querySelectorAll('[data-en]').forEach(n => {
       if (n.dataset.pt === undefined) n.dataset.pt = n.innerHTML;
       const t = l === 'pt' ? n.dataset.pt : (l === 'es' ? (n.dataset.es || n.dataset.en) : n.dataset.en);
@@ -206,15 +178,91 @@ class Component extends DCLogic {
       b.style.color = b.dataset.langbtn === l ? '#fff' : 'rgba(255,253,247,.45)';
     });
   };
+
+  setRoot = (el) => { this.rootEl = el; if (el) this.applyChrome(); };
   pickLang = (e) => {
     const code = e.currentTarget.dataset.langbtn;
-    if (!code || code === this.lang) return;
-    this.lang = code;
-    this.apply();
+    if (code && code !== this.state.lang) this.setState({ lang: code });
   };
-  componentDidMount() { this.apply(); }
-  componentDidUpdate() { this.apply(); }
-  renderVals() { return { pickLang: this.pickLang, setRoot: this.setRoot }; }
+  onSearch = (e) => this.setState({ query: e.target.value });
+  toggle = (id) => this.setState(s => ({ open: Object.assign({}, s.open, { [id]: !s.open[id] }) }));
+  expandAll = () => { const o = {}; this.sections().forEach(s => { o[s.id] = true; }); this.setState({ open: o }); };
+  collapseAll = () => this.setState({ open: {} });
+  doPrint = () => { this.expandAll(); setTimeout(() => window.print(), 120); };
+
+  sections = () => (window.RBR_REGS ? window.RBR_REGS[this.state.lang] || [] : []);
+
+  filtered = () => {
+    const q = norm(this.state.query.trim());
+    const secs = this.sections();
+    if (!q) return secs.map(s => ({ sec: s, items: s.items }));
+    return secs
+      .map(s => ({ sec: s, items: s.items.filter(it => norm((it.lead || '') + ' ' + it.text).includes(q) || norm(s.title).includes(q)) }))
+      .filter(x => x.items.length);
+  };
+
+  splitTitle = (title) => {
+    const m = title.match(/^([^–—-]+)\s*[–—-]\s*(.+)$/);
+    return m ? { num: m[1].trim(), name: m[2].trim() } : { num: '', name: title };
+  };
+
+  renderItem = (it, i) => {
+    if (it.t === 'h3') return h('h3', { key: i, style: { font: "900 clamp(18px,2.2vw,24px)/1.1 'Barlow Condensed'", textTransform: 'uppercase', color: '#0637B5', margin: '22px 0 4px', letterSpacing: '.01em' } }, it.text);
+    if (it.t === 'li') return h('div', { key: i, style: { display: 'flex', gap: '12px', padding: '3px 0 3px 14px' } },
+      it.lead ? h('span', { style: { font: '700 13.5px/1.65 Inter', color: '#A8500A', minWidth: '30px', flex: '0 0 auto' } }, it.lead) : h('span', { style: { color: '#A8500A', flex: '0 0 auto', font: '700 13.5px/1.65 Inter' } }, '·'),
+      h('span', { style: { font: '400 15px/1.65 Inter', color: '#3a4a6b' } }, it.text));
+    if (it.t === 'sub') return h('div', { key: i, style: { display: 'flex', gap: '12px', padding: '4px 0 4px 14px' } },
+      h('span', { style: { font: '700 13.5px/1.65 Inter', color: 'rgba(7,23,70,.55)', minWidth: '58px', flex: '0 0 auto' } }, it.lead),
+      h('span', { style: { font: '400 15px/1.65 Inter', color: '#3a4a6b' } }, it.text));
+    if (it.t === 'art') return h('div', { key: i, style: { display: 'flex', gap: '12px', padding: '12px 0 4px', borderTop: i ? '1px solid rgba(7,23,70,.08)' : 'none', marginTop: i ? '8px' : 0 } },
+      h('span', { style: { font: "900 16px/1.5 'Barlow Condensed'", letterSpacing: '.02em', color: '#D66B0B', minWidth: '62px', flex: '0 0 auto' } }, it.lead),
+      h('span', { style: { font: '400 15.5px/1.65 Inter', color: '#071746' } }, it.text));
+    return h('p', { key: i, style: { font: '400 15px/1.65 Inter', color: '#3a4a6b', margin: '6px 0' } }, it.text);
+  };
+
+  renderSection = ({ sec, items }) => {
+    const open = !!this.state.open[sec.id] || !!this.state.query.trim();
+    const { num, name } = this.splitTitle(sec.title);
+    const isAnnex = sec.kind === 'annex';
+    return h('div', { key: sec.id, id: sec.id, style: { scrollMarginTop: '88px', background: '#fff', border: '1px solid rgba(7,23,70,.12)', borderRadius: '12px', overflow: 'hidden', boxShadow: open ? '0 10px 30px rgba(7,23,70,.07)' : 'none' } },
+      h('button', { onClick: () => this.toggle(sec.id), style: { width: '100%', cursor: 'pointer', border: 'none', background: open ? '#071746' : '#F4E5CB', display: 'flex', alignItems: 'center', gap: '14px', textAlign: 'left', padding: 'clamp(14px,2vw,18px) clamp(14px,2.5vw,22px)' } },
+        h('span', { style: { font: "900 13px/1.2 'Barlow Condensed'", letterSpacing: '.12em', textTransform: 'uppercase', color: open ? '#E49A2A' : (isAnnex ? '#0637B5' : '#A8500A'), minWidth: '96px', flex: '0 0 auto' } }, num),
+        h('span', { style: { flex: '1 1 auto', minWidth: 0, font: "900 clamp(16px,2.2vw,22px)/1.15 'Barlow Condensed'", textTransform: 'uppercase', color: open ? '#FFFDF7' : '#071746' } }, name),
+        h('span', { style: { font: '700 15px/1 Inter', color: open ? '#E49A2A' : 'rgba(7,23,70,.45)', flex: '0 0 auto' } }, open ? '−' : '+')),
+      open ? h('div', { style: { padding: 'clamp(16px,2.5vw,26px) clamp(14px,2.5vw,26px)' } }, items.map(this.renderItem)) : null);
+  };
+
+  renderVals() {
+    const l = this.state.lang;
+    if (!this.state.ready) {
+      return {
+        query: this.state.query, searchPlaceholder: UI.search[l], pickLang: this.pickLang, setRoot: this.setRoot,
+        onSearch: this.onSearch, expandAll: this.expandAll, collapseAll: this.collapseAll, doPrint: this.doPrint,
+        tocNav: null,
+        body: h('div', { style: { padding: '40px', font: '500 15px/1.5 Inter', color: 'rgba(7,23,70,.5)' } }, '…')
+      };
+    }
+    const groups = this.filtered();
+    const q = this.state.query.trim();
+    const total = groups.reduce((a, g) => a + g.items.length, 0);
+    const toc = this.sections().map(s => {
+      const { num, name } = this.splitTitle(s.title);
+      const active = !!this.state.open[s.id];
+      return h('a', { key: s.id, href: '#' + s.id, onClick: () => this.setState(st => ({ open: Object.assign({}, st.open, { [s.id]: true }) })), style: { display: 'block', font: '600 13.5px/1.35 Inter', color: '#071746', padding: '9px 12px', borderRadius: '8px', borderLeft: '3px solid ' + (active ? '#E49A2A' : 'rgba(7,23,70,.12)'), background: active ? '#F4E5CB' : 'transparent' } },
+        h('span', { style: { display: 'block', font: "800 10px/1.3 'Barlow Condensed'", letterSpacing: '.12em', textTransform: 'uppercase', color: s.kind === 'annex' ? '#0637B5' : '#A8500A' } }, num),
+        h('span', null, name));
+    });
+    return {
+      query: this.state.query, searchPlaceholder: UI.search[l], pickLang: this.pickLang, setRoot: this.setRoot,
+      onSearch: this.onSearch, expandAll: this.expandAll, collapseAll: this.collapseAll, doPrint: this.doPrint,
+      tocNav: toc,
+      body: [
+        q ? h('div', { key: 'count', style: { font: '600 13px/1.4 Inter', color: 'rgba(7,23,70,.6)', padding: '2px 4px 6px' } }, total + ' ' + UI.matches[l]) : null,
+        groups.length ? groups.map(this.renderSection)
+          : h('div', { key: 'none', style: { padding: '40px', textAlign: 'center', font: '500 15px/1.5 Inter', color: 'rgba(7,23,70,.5)', background: '#fff', border: '1px dashed rgba(7,23,70,.2)', borderRadius: '12px' } }, UI.noResults[l])
+      ]
+    };
+  }
 }
 </script>
 </body>
